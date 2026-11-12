@@ -2,12 +2,21 @@
 import BaseLayout from "../components/BaseLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
 import { SITE } from "../site.config";
+
+const hasFormKey = SITE.contactForm.accessKey.length > 0;
 ---
 
-<BaseLayout title="Contact" description="Contact the project team by email, LinkedIn, or WhatsApp. The message form is not connected yet.">
+<BaseLayout
+  title="Contact"
+  description={hasFormKey
+    ? "Contact the project team with the message form, or by email, LinkedIn, or WhatsApp."
+    : "Contact the project team by email, LinkedIn, or WhatsApp. The message form is being set up."}
+>
   <PageHeader
     title="Contact"
-    intro="Reach the project lead directly. The message form below is the main option once it is connected; for now it is a placeholder and sends nothing."
+    intro={hasFormKey
+      ? "Reach the project lead with the form below, or directly by email, LinkedIn, or WhatsApp."
+      : "Reach the project lead directly. The message form below is being set up and sends nothing yet; for now, use email or WhatsApp."}
   />
   <div class="container">
     <h2>Direct contact</h2>
@@ -42,24 +51,44 @@ import { SITE } from "../site.config";
       page. Do not send sensitive personal information through any channel on this page.
     </p>
 
-    <h2>Message form (placeholder)</h2>
-    <p class="muted">
-      This form does nothing yet. Choosing a form service, and confirming where messages go, are
-      open items. Until then, use email or WhatsApp above. Do not send sensitive information
-      through this form.
-    </p>
-    <form class="contact" id="contact-form" novalidate>
+    <h2>Message form</h2>
+    {hasFormKey ? (
+      <p class="muted">
+        Messages sent through this form go through the form service (Web3Forms) to the project
+        lead's email. Do not send sensitive information through this form.
+      </p>
+    ) : (
+      <p class="muted">
+        This form is being set up and sends nothing yet. Until it is connected, use email or
+        WhatsApp above. Do not send sensitive information through this form.
+      </p>
+    )}
+    <form
+      class="contact"
+      id="contact-form"
+      action={hasFormKey ? SITE.contactForm.endpoint : undefined}
+      method="post"
+      novalidate
+    >
+      {hasFormKey && (
+        <>
+          <input type="hidden" name="access_key" value={SITE.contactForm.accessKey} />
+          <input type="hidden" name="subject" value="ApisSight contact form message" />
+          <input type="hidden" name="from_name" value="ApisSight website" />
+          <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        </>
+      )}
       <div>
         <label for="name">Name</label>
-        <input id="name" name="name" type="text" autocomplete="name" />
+        <input id="name" name="name" type="text" autocomplete="name" required disabled={!hasFormKey} />
       </div>
       <div>
         <label for="email">Email</label>
-        <input id="email" name="email" type="email" autocomplete="email" />
+        <input id="email" name="email" type="email" autocomplete="email" required disabled={!hasFormKey} />
       </div>
       <div>
         <label for="topic">Topic</label>
-        <select id="topic" name="topic">
+        <select id="topic" name="topic" disabled={!hasFormKey}>
           <option>General question</option>
           <option>Research collaboration</option>
           <option>Beekeeper feedback</option>
@@ -69,19 +98,62 @@ import { SITE } from "../site.config";
       </div>
       <div>
         <label for="message">Message</label>
-        <textarea id="message" name="message" rows="6"></textarea>
+        <textarea id="message" name="message" rows="6" required disabled={!hasFormKey}></textarea>
       </div>
-      <p id="form-notice" class="notice" hidden>
-        The contact form is not connected yet, so your message was not sent. Please use the email
-        address or WhatsApp link above instead.
+      <p id="form-notice" class="notice" role="alert" hidden={!hasFormKey ? false : true}>
+        {hasFormKey
+          ? ""
+          : "The contact form is being set up, so your message cannot be sent yet. Please use the email address or WhatsApp link above instead."}
       </p>
-      <button type="submit">Send (placeholder — sends nothing)</button>
+      <button type="submit" disabled={!hasFormKey}>
+        {hasFormKey ? "Send message" : "Send (form being set up)"}
+      </button>
     </form>
-    <script is:inline>
-      document.getElementById("contact-form").addEventListener("submit", function (event) {
-        event.preventDefault();
-        document.getElementById("form-notice").hidden = false;
-      });
-    </script>
+    {hasFormKey && (
+      <script is:inline>
+        document.getElementById("contact-form").addEventListener("submit", async function (event) {
+          event.preventDefault();
+          var form = event.target;
+          var notice = document.getElementById("form-notice");
+          var button = form.querySelector("button[type=submit]");
+          var name = form.elements["name"].value.trim();
+          var email = form.elements["email"].value.trim();
+          var message = form.elements["message"].value.trim();
+          function show(text) {
+            notice.textContent = text;
+            notice.hidden = false;
+          }
+          if (!name || !email || !message) {
+            show("Please fill in your name, email, and message before sending.");
+            return;
+          }
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            show("That email address does not look valid. Please check it and try again.");
+            return;
+          }
+          button.disabled = true;
+          button.textContent = "Sending…";
+          try {
+            var response = await fetch(form.action, {
+              method: "POST",
+              body: new FormData(form),
+              headers: { Accept: "application/json" },
+            });
+            var result = await response.json();
+            if (response.ok && result.success) {
+              show("Thank you — your message was sent. The project lead will reply by email.");
+              form.reset();
+            } else {
+              show("Sorry, your message could not be sent. Please try again, or use the email address or WhatsApp link above instead.");
+            }
+          } catch (error) {
+            show("Sorry, your message could not be sent. Please check your connection and try again, or use the email address or WhatsApp link above instead.");
+          } finally {
+            button.disabled = false;
+            button.textContent = "Send message";
+          }
+        });
+      </script>
+    )}
   </div>
 </BaseLayout>
