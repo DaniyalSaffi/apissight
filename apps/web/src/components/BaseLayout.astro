@@ -1,0 +1,163 @@
+---
+import { SITE, href, type LangCode } from "../site.config";
+import "../styles/global.css";
+
+export interface Props {
+  title: string;
+  description?: string;
+  lang?: LangCode;
+  dir?: "ltr" | "rtl";
+}
+
+const { title, description = SITE.description, lang = "en", dir = "ltr" } = Astro.props;
+const pageTitle = `${title} — ${SITE.name}`;
+const currentPath = Astro.url.pathname;
+
+const navItems: Array<{ path: string; label: string }> = [
+  { path: "/project", label: "Project" },
+  { path: "/detector", label: "Detector" },
+  { path: "/journey", label: "Journey" },
+  { path: "/partnership", label: "Partnership" },
+  { path: "/field-work", label: "Field work" },
+  { path: "/research", label: "Research" },
+  { path: "/awards", label: "Awards" },
+  { path: "/team", label: "Team" },
+  { path: "/models-data", label: "Models & data" },
+  { path: "/roadmap", label: "Roadmap" },
+  { path: "/learn", label: "Learn" },
+  { path: "/news", label: "News" },
+  { path: "/press", label: "Press" },
+  { path: "/faq", label: "FAQ" },
+  { path: "/contact", label: "Contact" },
+];
+
+function isCurrent(path: string): boolean {
+  const base = import.meta.env.BASE_URL ?? "/";
+  const cleanBase = base.endsWith("/") ? base.slice(0, -1) : base;
+  const full = `${cleanBase}${path}`;
+  return currentPath === full || currentPath === `${full}/`;
+}
+---
+
+<!doctype html>
+<html lang={lang} dir={dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    {!SITE.allowIndexing && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#F5A524" />
+    <link rel="manifest" href={href("/manifest.webmanifest")} />
+    <link rel="icon" type="image/svg+xml" href={href("/favicon.svg")} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;600;700&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <script is:inline>
+      // Set theme before paint. Stored choice wins; otherwise follow the system.
+      try {
+        var stored = localStorage.getItem("apissight-theme");
+        var theme = stored || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      } catch (e) { /* private mode: keep light theme */ }
+    </script>
+  </head>
+  <body data-sw-url={href("/sw.js")}>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    {SITE.earlyRelease && (
+      <div class="release-banner" role="note">
+        Early release: some sections are still being completed.
+      </div>
+    )}
+    <header class="site-header">
+      <div class="container header-row">
+        <a class="brand" href={href("/")} aria-label={`${SITE.name} — home`}>
+          <svg class="hex-mark" width="40" height="44" viewBox="0 0 40 44" aria-hidden="true">
+            <polygon points="20,1 38,11 38,31 20,41 2,31 2,11" fill="#F5A524" stroke="#B97A0F" stroke-width="2" />
+            <text x="20" y="29" text-anchor="middle" font-size="20" font-weight="700" fill="#1D1408" font-family="Georgia, serif">A</text>
+          </svg>
+          <span>
+            <span class="brand-name">{SITE.name}</span><br />
+            <span class="brand-tag">{SITE.tagline}</span>
+          </span>
+        </a>
+        <div class="header-actions">
+          <nav class="lang-links" aria-label="Language">
+            <a href={href("/")} aria-current={lang === "en" ? "page" : undefined}>English</a>
+            <a href={href("/de/")} aria-current={lang === "de" ? "page" : undefined}>Deutsch</a>
+            <a href={href("/ur/")} aria-current={lang === "ur" ? "page" : undefined}>اردو</a>
+          </nav>
+          <button class="theme-btn" id="theme-toggle" type="button" aria-label="Switch light and dark theme">Theme</button>
+        </div>
+      </div>
+      <nav class="main-nav" aria-label="Main">
+        <div class="container">
+          <ul>
+            <li><a href={href("/")} aria-current={isCurrent("/") ? "page" : undefined}>Home</a></li>
+            {navItems.map((item) => (
+              <li>
+                <a href={href(item.path)} aria-current={isCurrent(item.path) ? "page" : undefined}>{item.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="container">
+        <nav aria-label="Footer">
+          <ul>
+            <li><a href={href("/privacy")}>Privacy</a></li>
+            <li><a href={href("/terms")}>Terms</a></li>
+            <li><a href={href("/imprint")}>Imprint</a></li>
+            <li><a href={href("/faq")}>FAQ</a></li>
+            <li><a href={href("/contact")}>Contact</a></li>
+            <li><a href={href("/credits")}>Image credits</a></li>
+          </ul>
+        </nav>
+        <p class="footer-note">
+          Contact:
+          <a href={`mailto:${SITE.contactEmail}`}>Email</a> ·
+          {SITE.socials.linkedin && <><a href={SITE.socials.linkedin} rel="noopener">LinkedIn</a> · </>}
+          <a href={SITE.whatsapp.chatUrl} rel="noopener">WhatsApp</a>
+        </p>
+        <p class="footer-note">
+          {SITE.name} is a final-year project from the Department of Computer
+          Science, Namal University. {SITE.disclaimer}
+        </p>
+        <p class="footer-note small">
+          Early release: some sections are still being completed. Awards and field-work claims
+          on this site are statements by the project team, not verified facts.
+        </p>
+      </div>
+    </footer>
+    <script is:inline>
+      document.getElementById("theme-toggle").addEventListener("click", function () {
+        var root = document.documentElement;
+        var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem("apissight-theme", next); } catch (e) { /* ignore */ }
+      });
+    </script>
+    <script>
+      // Offline support for production builds only. The service worker caches
+      // the app shell and the detector page. It never caches uploads or results.
+      // The URL comes from a data attribute so this script stays bundled.
+      if (import.meta.env.PROD && "serviceWorker" in navigator) {
+        var swUrl = document.body.getAttribute("data-sw-url");
+        if (swUrl) {
+          window.addEventListener("load", function () {
+            navigator.serviceWorker.register(swUrl).catch(function () { /* offline support is optional */ });
+          });
+        }
+      }
+    </script>
+  </body>
+</html>

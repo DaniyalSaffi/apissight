@@ -1,0 +1,17 @@
+---
+export interface Props {
+  kind: "evidence" | "consent" | "approval" | "review" | "planned" | "pending";
+  label?: string;
+}
+const { kind, label } = Astro.props;
+const defaults: Record<Props["kind"], string> = {
+  evidence: "Evidence pending",
+  consent: "Consent pending",
+  approval: "Pending SAWiE approval",
+  review: "Pending expert review",
+  planned: "Planned",
+  pending: "Pending",
+};
+---
+
+<span class={`badge badge-${kind}`}>{label ?? defaults[kind]}</span>

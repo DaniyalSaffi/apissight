@@ -1,0 +1,10 @@
+---
+export interface Props {
+  text: string;
+}
+const { text } = Astro.props;
+---
+
+<div class="placeholder-box" role="note">
+  <strong>[PLACEHOLDER: {text}]</strong>
+</div>
