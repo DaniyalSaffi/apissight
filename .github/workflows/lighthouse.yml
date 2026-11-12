@@ -33,10 +33,12 @@ jobs:
         run: npx --yes @lhci/cli@0.15 assert
       - name: Save Lighthouse reports
         if: always()
-        run: npx --yes @lhci/cli@0.15 upload --target=filesystem --outputDir=./.lighthouseci
+        # Plain directory name: dot-directories are skipped by the artifact
+        # upload's file matching, which is why run #2 saved nothing.
+        run: npx --yes @lhci/cli@0.15 upload --target=filesystem --outputDir=./lhci-reports
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: lighthouse-report
-          path: .lighthouseci/
+          path: lhci-reports/
           retention-days: 30
