@@ -1,0 +1,52 @@
+---
+import BaseLayout from "../../components/BaseLayout.astro";
+import StatusBadge from "../../components/StatusBadge.astro";
+import { SITE, href } from "../../site.config";
+import { ur } from "../../i18n/ur";
+---
+
+<BaseLayout
+  title="مرکزی صفحہ (مسودہ)"
+  description="اردو مرکزی صفحہ (مسودہ، جائزہ زیر التوا)۔ انگریزی صفحات موجودہ ہیں۔"
+  lang="ur"
+  dir="rtl"
+>
+  <section class="hero">
+    <div class="container">
+      <p><StatusBadge kind="review" label="ترجمہ: جائزہ زیر التوا (needsReview)" /></p>
+      <h1>صحت مند چھتے، تیز نظر۔</h1>
+      <p class="lead">
+        {ur.translationNote} اردو نسخہ مسودہ ہے۔ انگریزی صفحات موجودہ ہیں۔ مکمل ترجمہ مقامی بولنے
+        والے کے جائزے کے بعد آئے گا۔
+      </p>
+      <p class="lead">
+        {SITE.name} نمل یونیورسٹی کا فائنل ایئر منصوبہ ہے: تصویر سے شہد کی مکھیوں کی
+        تین بیماریوں کی جانچ، فیصلے میں مدد کے لیے — ماہر معائنے کا متبادل نہیں۔
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href={href("/")}>انگریزی مرکزی صفحہ</a>
+        <a class="btn btn-secondary" href={href("/detector")}>ڈیٹیکٹر (انگریزی)</a>
+      </div>
+    </div>
+  </section>
+  <div class="container">
+    <h2>حصے (مسودہ)</h2>
+    <ul>
+      <li><a href={href("/project")}>{ur.nav.project}</a></li>
+      <li><a href={href("/detector")}>{ur.nav.detector}</a></li>
+      <li><a href={href("/journey")}>{ur.nav.journey}</a></li>
+      <li><a href={href("/partnership")}>{ur.nav.partnership}</a></li>
+      <li><a href={href("/research")}>{ur.nav.research}</a></li>
+      <li><a href={href("/team")}>{ur.nav.team}</a></li>
+      <li><a href={href("/models-data")}>{ur.nav.modelsData}</a></li>
+      <li><a href={href("/roadmap")}>{ur.nav.roadmap}</a></li>
+      <li><a href={href("/learn")}>{ur.nav.learn}</a></li>
+      <li><a href={href("/faq")}>{ur.nav.faq}</a></li>
+      <li><a href={href("/contact")}>{ur.nav.contact}</a></li>
+    </ul>
+    <p class="muted small">
+      needsReview: {String(ur.needsReview)}۔ اس ابتدائی ریلیز میں نیویگیشن اور فوٹر ابھی انگریزی میں ہیں۔
+      مکمل اردو صفحات جائزے کے بعد آئیں گے۔
+    </p>
+  </div>
+</BaseLayout>
