@@ -187,6 +187,9 @@ export interface HistoryRun {
   items: HistoryItem[];
 }
 
+/** Preprocessing variant for the detector worker. Must match PreprocessVariant in apps/web/src/lib/detector/preprocess.ts. */
+export type PreprocessVariant = "pillow" | "lanczos3" | "canvas" | "passthrough";
+
 /** Messages between the detector UI (main thread) and the inference worker. */
 export type WorkerRequest =
   | {
@@ -195,10 +198,13 @@ export type WorkerRequest =
       stage1ModelUrl: string;
       stage2ManifestUrl: string;
       stage2ModelUrl: string;
+      preprocessVariant?: PreprocessVariant;
     }
-  | { type: "classify"; id: string; image: Blob };
+  | { type: "classify"; id: string; image: Blob }
+  | { type: "pixels"; id: string; image: Blob };
 
 export type WorkerResponse =
   | { type: "status"; status: "loading" | "ready" | "not-loaded"; reason?: string; modelVersion?: string }
   | { type: "result"; id: string; result: InferenceResult }
+  | { type: "pixels-result"; id: string; pixels: Uint8Array }
   | { type: "error"; id: string | null; message: string };
