@@ -1,0 +1,116 @@
+---
+import BaseLayout from "../components/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { href } from "../site.config";
+
+const pagefindJs = href("/pagefind/pagefind.js");
+const basePath = import.meta.env.BASE_URL ?? "/";
+---
+
+<BaseLayout
+  title="Search"
+  description="Search every page of the ApisSight site."
+>
+  <PageHeader title="Search" intro="Search every page of this site. Results stay on this site." />
+  <div class="container">
+    <form class="search-form" id="search-form" role="search">
+      <label for="search-input">
+        Search the site
+        <input id="search-input" name="q" type="search" autocomplete="off" />
+      </label>
+      <button type="submit">Search</button>
+    </form>
+    <p id="search-status" class="muted" aria-live="polite">Type a search term above.</p>
+    <div
+      id="search-results"
+      data-pagefind-js={pagefindJs}
+      data-base={basePath}
+    ></div>
+  </div>
+</BaseLayout>
+
+<script>
+  const container = document.getElementById("search-results");
+  const input = document.getElementById("search-input");
+  const status = document.getElementById("search-status");
+  const form = document.getElementById("search-form");
+  const pagefindJs = container.dataset.pagefindJs;
+  const base = (container.dataset.base ?? "/").replace(/\/$/, "");
+  let pagefind = null;
+  let loadFailed = false;
+  let debounce = null;
+
+  async function loadPagefind() {
+    if (pagefind || loadFailed) return pagefind;
+    try {
+      pagefind = await import(/* @vite-ignore */ pagefindJs);
+      if (typeof pagefind.init === "function") await pagefind.init();
+    } catch {
+      loadFailed = true;
+      status.textContent = "Search is unavailable in this build.";
+    }
+    return pagefind;
+  }
+
+  async function runSearch(query) {
+    const q = query.trim();
+    if (!q) {
+      container.innerHTML = "";
+      status.textContent = "Type a search term above.";
+      return;
+    }
+    status.textContent = "Searching…";
+    const pf = await loadPagefind();
+    if (!pf) {
+      container.innerHTML = "";
+      return;
+    }
+    const search = await pf.search(q);
+    const items = search.results.slice(0, 20);
+    if (items.length === 0) {
+      container.innerHTML = "";
+      status.textContent = `No pages matched “${q}”.`;
+      return;
+    }
+    status.textContent = `${search.results.length} page${search.results.length === 1 ? "" : "s"} matched.`;
+    const list = document.createElement("ul");
+    list.className = "search-results";
+    for (const item of items) {
+      const data = await item.data();
+      const li = document.createElement("li");
+      const title = (data.meta && data.meta.title) || data.url;
+      const link = document.createElement("a");
+      link.href = base + data.url;
+      link.textContent = title;
+      const excerpt = document.createElement("p");
+      excerpt.innerHTML = data.excerpt;
+      li.appendChild(link);
+      li.appendChild(excerpt);
+      list.appendChild(li);
+    }
+    container.innerHTML = "";
+    container.appendChild(list);
+  }
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    runSearch(input.value);
+  });
+
+  input.addEventListener("input", () => {
+    clearTimeout(debounce);
+    debounce = setTimeout(() => {
+      const url = new URL(window.location.href);
+      if (input.value.trim()) url.searchParams.set("q", input.value.trim());
+      else url.searchParams.delete("q");
+      window.history.replaceState(null, "", url);
+      runSearch(input.value);
+    }, 300);
+  });
+
+  const initial = new URLSearchParams(window.location.search).get("q") ?? "";
+  if (initial) {
+    input.value = initial;
+    runSearch(initial);
+  }
+</script>
