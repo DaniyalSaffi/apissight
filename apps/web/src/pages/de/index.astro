@@ -1,0 +1,53 @@
+---
+import BaseLayout from "../../components/BaseLayout.astro";
+import StatusBadge from "../../components/StatusBadge.astro";
+import { SITE, href } from "../../site.config";
+import { de } from "../../i18n/de";
+---
+
+<BaseLayout
+  title="Startseite (Entwurf)"
+  description="Deutsche Startseite (Entwurf, Prüfung ausstehend). Die englischen Seiten sind aktuell."
+  lang="de"
+  dir="ltr"
+>
+  <section class="hero">
+    <div class="container">
+      <p><StatusBadge kind="review" label="Übersetzung: Prüfung ausstehend (needsReview)" /></p>
+      <h1>Gesunde Bienenstöcke, schärfere Augen.</h1>
+      <p class="lead">
+        {de.translationNote} Die deutsche Fassung ist ein Entwurf. Die englischen Seiten sind die
+        aktuellen Seiten. Die vollständige Übersetzung folgt nach Prüfung durch Muttersprachler.
+      </p>
+      <p class="lead">
+        {SITE.name} ist ein Abschlussprojekt der Namal University: eine
+        fotobasierte Prüfung auf drei Bienenkrankheiten, als Entscheidungshilfe — nicht als Ersatz
+        für die Inspektion durch Fachleute.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href={href("/")}>Zur englischen Startseite</a>
+        <a class="btn btn-secondary" href={href("/detector")}>Detektor (Englisch)</a>
+      </div>
+    </div>
+  </section>
+  <div class="container">
+    <h2>Bereiche (Entwurf)</h2>
+    <ul>
+      <li><a href={href("/project")}>{de.nav.project}</a></li>
+      <li><a href={href("/detector")}>{de.nav.detector}</a></li>
+      <li><a href={href("/journey")}>{de.nav.journey}</a></li>
+      <li><a href={href("/partnership")}>{de.nav.partnership}</a></li>
+      <li><a href={href("/research")}>{de.nav.research}</a></li>
+      <li><a href={href("/team")}>{de.nav.team}</a></li>
+      <li><a href={href("/models-data")}>{de.nav.modelsData}</a></li>
+      <li><a href={href("/roadmap")}>{de.nav.roadmap}</a></li>
+      <li><a href={href("/learn")}>{de.nav.learn}</a></li>
+      <li><a href={href("/faq")}>{de.nav.faq}</a></li>
+      <li><a href={href("/contact")}>{de.nav.contact}</a></li>
+    </ul>
+    <p class="muted small">
+      needsReview: {String(de.needsReview)}. Navigation und Fußzeile sind in dieser frühen Version noch
+      auf Englisch. Vollständige deutsche Seiten folgen nach Prüfung.
+    </p>
+  </div>
+</BaseLayout>
