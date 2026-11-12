@@ -5,6 +5,6 @@ export interface Props {
 const { text } = Astro.props;
 ---
 
-<div class="placeholder-box" role="note">
-  <strong>[PLACEHOLDER: {text}]</strong>
+<div class="placeholder-box" role="note" data-placeholder={text}>
+  <strong>To be added:</strong> {text}
 </div>
