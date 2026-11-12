@@ -11,8 +11,17 @@
  *   tests/fixtures/stub-invalid/stage1|stage2/{model.json,weights.bin,manifest.json}
  * stub-valid: Stage 1 top label is "0 ..." (gate passes), Stage 2 top is DWV.
  * stub-invalid: Stage 1 top label is "1 ..." (gate blocks Stage 2).
+ *
+ * The sets are also copied into apps/web/dist/{models,models-invalid} so the
+ * preview server serves them as real files. Route interception is NOT used:
+ * the detector loads its models inside a Web Worker, and the registered
+ * service worker handles same-origin requests, so intercepted routes never
+ * reach the worker's fetches. The build must run before the tests
+ * (`npm run build`, then `npm run test:e2e`); rebuilding wipes dist, so do
+ * not rebuild between the copy and the test run. Nothing here is shipped:
+ * dist/ is gitignored and the stubs never enter the repository.
  */
-import { mkdirSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -128,3 +137,13 @@ function writeSet(name, stage1Bias) {
 
 writeSet("stub-valid", [3, 0]);
 writeSet("stub-invalid", [0, 3]);
+
+// Serve the stubs as real files from the preview server's dist folder.
+const distDir = join(root, "..", "..", "apps", "web", "dist");
+if (!existsSync(distDir)) {
+  console.error("apps/web/dist not found. Run `npm run build` before `npm run test:e2e`.");
+  process.exit(1);
+}
+cpSync(join(root, "stub-valid"), join(distDir, "models"), { recursive: true });
+cpSync(join(root, "stub-invalid"), join(distDir, "models-invalid"), { recursive: true });
+console.log("Copied stub sets into apps/web/dist/{models,models-invalid} (test runtime only, never shipped).");
