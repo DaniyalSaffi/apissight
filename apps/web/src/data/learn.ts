@@ -22,8 +22,9 @@ export interface DiseaseNote {
   source: string;
   /** General guidance from FAO / extension sources, pending expert review. */
   guidance?: DiseaseGuidance;
-  /** Illustrative photo (freely licensed, not project field work). */
-  image?: { file: string; alt: string; caption: string };
+  /** Illustrative photo (freely licensed, not project field work). Width and
+   * height are the file's pixel dimensions, for layout stability. */
+  image?: { file: string; alt: string; caption: string; width: number; height: number };
 }
 
 export const diseases: DiseaseNote[] = [
@@ -62,6 +63,8 @@ export const diseases: DiseaseNote[] = [
       file: "images/stock/varroa.jpg",
       alt: "A Varroa mite on a bee nymph, magnified",
       caption: "Illustrative image. A Varroa mite on a bee nymph, magnified.",
+      width: 960,
+      height: 643,
     },
   },
   {
@@ -98,6 +101,8 @@ export const diseases: DiseaseNote[] = [
       file: "images/stock/deformed_wing.jpg",
       alt: "A honeybee with deformed wings and a visible Varroa mite",
       caption: "Illustrative image. A honeybee with deformed wings and a visible Varroa mite.",
+      width: 960,
+      height: 742,
     },
   },
   {
@@ -136,6 +141,8 @@ export const diseases: DiseaseNote[] = [
       file: "images/stock/chalkbrood.jpg",
       alt: "Chalkbrood mummies on a hive entrance board, with worker bees",
       caption: "Illustrative image. Chalkbrood mummies on a hive entrance board, with worker bees.",
+      width: 768,
+      height: 512,
     },
   },
   {
@@ -149,6 +156,8 @@ export const diseases: DiseaseNote[] = [
       file: "images/stock/bee_closeup.jpg",
       alt: "A honeybee, close up",
       caption: "Illustrative image. A honeybee, close up.",
+      width: 960,
+      height: 704,
     },
   },
 ];
