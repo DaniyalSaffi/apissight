@@ -7,12 +7,13 @@ import { timeline } from "../data/timeline";
 import { href } from "../site.config";
 ---
 
-<BaseLayout title="Journey" description="Timeline from the degree cohort to this site. Missing dates are placeholders.">
+<BaseLayout title="Journey" description="Timeline from the degree cohort to this site. Dates come from the report or public sources; tentative dates are marked approx.">
   <PageHeader
     title="Journey"
-    intro="From a final-year project brief to this site. Dates the report does not state are shown as placeholders, not guessed."
+    intro="From a final-year project brief to this site. Dates come from the report or public sources. Tentative dates are marked approx., and dates still being confirmed are shown as placeholders, not guessed."
   />
   <div class="container">
+    <p class="small muted">Dates are being confirmed.</p>
     <PlaceholderBox text="journey video (hosted externally, with captions and transcript) and dated photos, with permissions confirmed" />
     <h2 class="visually-hidden">Timeline</h2>
     <ol class="timeline">
@@ -29,9 +30,10 @@ import { href } from "../site.config";
     </ol>
     <h2>What is missing</h2>
     <p>
-      Most journey dates are missing because the project report gives no dates except the degree
-      cohort. The team will supply the project start date, collaboration dates, visit dates, and the
-      paper submission date. Until then, this timeline stays part placeholder by design.
+      Several dates are still missing: the report gives no dates except the degree cohort, and no
+      public source states the SAWiE collaboration start, the HBRI and NARC visit dates, or the
+      report submission and defence dates. The project start date is tentative. The team will
+      supply the missing dates. Until then, this timeline stays part placeholder by design.
     </p>
     <p>
       <a href={href("/awards")}>Awards, with organiser sources</a> ·

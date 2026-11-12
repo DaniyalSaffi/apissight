@@ -31,6 +31,7 @@ import { href } from "../site.config";
           <img src={href("/images/placeholders/portrait.svg")} alt="" width="120" loading="lazy" />
           <h3 style="margin-top:0;">{member.name}</h3>
           <p><strong>{member.role}</strong></p>
+          {member.bio && <p>{member.bio}</p>}
           <p class="small">{member.consentNote}</p>
           <p class="small muted">Source: {member.source}</p>
           {(member.links.email || member.links.linkedin || member.links.github) && (
