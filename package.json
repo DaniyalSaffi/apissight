@@ -5,6 +5,7 @@
   },
   "name": "apissight",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "npm run build --workspace=apps/web",
     "check:links": "node scripts/check-links.mjs",
