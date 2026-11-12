@@ -17,6 +17,38 @@ const pageTitle = `${title} — ${SITE.name}`;
 const currentPath = Astro.url.pathname;
 const t = lang === "de" ? de : lang === "ur" ? ur : en;
 
+// SEO: canonical + Open Graph + JSON-LD describe the page and stay on under
+// noindex (the noindex meta tag is what keeps search engines out). Only the
+// sitemap content is gated by allowIndexing (see pages/sitemap.xml.ts).
+const ogImage = new URL(href("/images/stock/bee_on_flower.jpg"), Astro.url).href;
+const siteLogo = new URL(href("/favicon.svg"), Astro.url).href;
+const siteHome = new URL(href("/"), Astro.url).href;
+const ogLocale = lang === "de" ? "de_DE" : lang === "ur" ? "ur_PK" : "en_GB";
+const isHomePage =
+  currentPath === href("/") || currentPath === href("/de/") || currentPath === href("/ur/");
+const homeAlternates = [
+  { lang: "en", path: "/" },
+  { lang: "de", path: "/de/" },
+  { lang: "ur", path: "/ur/" },
+];
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: SITE.name,
+    url: siteHome,
+    logo: siteLogo,
+    description: SITE.description,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE.name,
+    url: siteHome,
+    inLanguage: "en",
+  },
+];
+
 const navItems: Array<{ path: string; label: string }> = [
   { path: "/project", label: t.nav.project },
   { path: "/detector", label: t.nav.detector },
@@ -56,6 +88,28 @@ function isCurrent(path: string): boolean {
     <link rel="manifest" href={href("/manifest.webmanifest")} />
     <link rel="icon" type="image/svg+xml" href={href("/favicon.svg")} />
     <link rel="alternate" type="application/rss+xml" title={`${SITE.name} news`} href={href("/rss.xml")} />
+    <link rel="canonical" href={Astro.url.href} />
+    {isHomePage ? (
+      <>
+        {homeAlternates.map((alt) => (
+          <link rel="alternate" hreflang={alt.lang} href={new URL(href(alt.path), Astro.url).href} />
+        ))}
+        <link rel="alternate" hreflang="x-default" href={siteHome} />
+      </>
+    ) : (
+      <link rel="alternate" hreflang="en" href={Astro.url.href} />
+    )}
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url.href} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     <link rel="stylesheet" href={href("/css/fonts.css")} />
     <script is:inline>
       // Set theme before paint. Stored choice wins; otherwise follow the system.
