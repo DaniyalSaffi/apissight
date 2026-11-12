@@ -8,8 +8,10 @@
  *
  * Production launch is blocked while any of these remain in the site source
  * (pages, data, config, i18n — component files are excluded because badge
- * default labels are UI machinery, not content claims):
- *   - "[PLACEHOLDER" markers
+ * default labels and the placeholder-box template are UI machinery, not
+ * content claims):
+ *   - PlaceholderBox usage in pages, data-placeholder attributes, or
+ *     status: "placeholder" values (friendly "To be added" cards)
  *   - "Evidence pending" / "Consent pending" markers (any case, incl. data values)
  *   - "Pending SAWiE approval" / "Pending expert review" markers
  *   - StatusBadge usage with kind="evidence" | "consent" | "approval" | "review"
@@ -33,7 +35,9 @@ const srcDir = join(root, "apps", "web", "src");
 const strict = process.argv.includes("--strict");
 
 const MARKERS = [
-  "[PLACEHOLDER",
+  "<PlaceholderBox",
+  "data-placeholder",
+  'status: "placeholder"',
   "Evidence pending",
   "evidence pending",
   "Consent pending",
