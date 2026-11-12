@@ -20,13 +20,13 @@ export const timeline: TimelineEntry[] = [
     status: "placeholder",
   },
   {
-    dateLabel: "[PLACEHOLDER: date]",
+    dateLabel: "Date to be added",
     title: "Industry collaboration with SAWiE Ecosystem",
     body: "SAWiE Ecosystem is the project's industrial partner, providing mentorship and technical guidance. Fritz Böhmler visited Namal University and the team collaborated by video call. (FYP report §1.8.) Dates are not stated in the report, and no public source states a start date.",
     status: "placeholder",
   },
   {
-    dateLabel: "[PLACEHOLDER: dates]",
+    dateLabel: "Date to be added",
     title: "Workshops and site visits at HBRI and NARC, Islamabad",
     body: "Team statement: workshops and site visits at the Honeybee Research Institute (HBRI) and the National Agricultural Research Centre (NARC), Islamabad. Dates, photos, and written confirmations are still to be supplied.",
     status: "photos to be added",
@@ -56,13 +56,13 @@ export const timeline: TimelineEntry[] = [
     status: "confirmed",
   },
   {
-    dateLabel: "[PLACEHOLDER: submission date]",
+    dateLabel: "Date to be added",
     title: "Research paper under review",
     body: "The research paper is under review. No title, abstract, or journal name is published here until the team confirms what may be shared.",
     status: "placeholder",
   },
   {
-    dateLabel: "[PLACEHOLDER: date]",
+    dateLabel: "Date to be added",
     title: "Website early release",
     body: "This site is built from the final-year project report and the two supplied models. The live detector follows once model conversion and parity testing are complete.",
     status: "placeholder",
