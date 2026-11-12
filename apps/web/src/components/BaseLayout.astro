@@ -55,6 +55,7 @@ function isCurrent(path: string): boolean {
     <meta name="theme-color" content="#F5A524" />
     <link rel="manifest" href={href("/manifest.webmanifest")} />
     <link rel="icon" type="image/svg+xml" href={href("/favicon.svg")} />
+    <link rel="alternate" type="application/rss+xml" title={`${SITE.name} news`} href={href("/rss.xml")} />
     <link rel="stylesheet" href={href("/css/fonts.css")} />
     <script is:inline>
       // Set theme before paint. Stored choice wins; otherwise follow the system.
