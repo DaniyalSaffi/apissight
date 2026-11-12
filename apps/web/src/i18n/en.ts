@@ -19,6 +19,27 @@ export const en = {
     faq: "FAQ",
     contact: "Contact",
   },
+  footer: {
+    privacy: "Privacy",
+    terms: "Terms",
+    imprint: "Imprint",
+    faq: "FAQ",
+    contact: "Contact",
+    credits: "Image credits",
+    contactLabel: "Contact:",
+    email: "Email",
+    about: "is a final-year project from the Department of Computer Science, Namal University.",
+    earlyReleaseNote:
+      "Early release: some sections are still being completed. Awards and field-work claims on this site are statements by the project team, not verified facts.",
+  },
+  chrome: {
+    skipLink: "Skip to main content",
+    theme: "Theme",
+    themeLabel: "Switch light and dark theme",
+    mainNav: "Main",
+    footerNav: "Footer",
+    langNav: "Language",
+  },
   releaseBanner: "Early release: some sections are still being completed.",
   translationNote: "",
 } as const;
