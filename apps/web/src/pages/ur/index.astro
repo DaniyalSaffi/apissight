@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../components/BaseLayout.astro";
 import StatusBadge from "../../components/StatusBadge.astro";
+import Disclaimer from "../../components/Disclaimer.astro";
 import { SITE, href } from "../../site.config";
 import { ur } from "../../i18n/ur";
 ---
@@ -16,37 +17,163 @@ import { ur } from "../../i18n/ur";
       <p><StatusBadge kind="review" label="ترجمہ: جائزہ زیر التوا (needsReview)" /></p>
       <h1>صحت مند چھتے، تیز نظر۔</h1>
       <p class="lead">
-        {ur.translationNote} اردو نسخہ مسودہ ہے۔ انگریزی صفحات موجودہ ہیں۔ مکمل ترجمہ مقامی بولنے
-        والے کے جائزے کے بعد آئے گا۔
-      </p>
-      <p class="lead">
-        {SITE.name} نمل یونیورسٹی کا فائنل ایئر منصوبہ ہے: تصویر سے شہد کی مکھیوں کی
-        تین بیماریوں کی جانچ، فیصلے میں مدد کے لیے — ماہر معائنے کا متبادل نہیں۔
+        تصویر کی جانچ جو شہد کی مکھیوں کے پالنے والوں کو تین بیماریاں جلد پہچاننے میں مدد دیتی
+        ہے، نمل یونیورسٹی کے فائنل ایئر منصوبے سے بنی۔ یہ معائنے میں مدد دیتی ہے۔ یہ اس کا
+        متبادل کبھی نہیں۔
       </p>
       <div class="hero-actions">
-        <a class="btn" href={href("/")}>انگریزی مرکزی صفحہ</a>
-        <a class="btn btn-secondary" href={href("/detector")}>ڈیٹیکٹر (انگریزی)</a>
+        <a class="btn" href={href("/detector")}>ڈیٹیکٹر کیسے کام کرتا ہے</a>
+        <a class="btn btn-secondary" href={href("/project")}>منصوبہ پڑھیں</a>
       </div>
+      <p class="small muted" style="margin-top:1rem;">
+        {SITE.name}۔ ڈیٹیکٹر کا انٹرفیس تیار ہے اور تبدیل شدہ ماڈلز پیرٹی ٹیسٹ پاس کر چکے ہیں،
+        لیکن وہ ابھی شائع نہیں ہوئے، اس لیے کوئی تجزیہ نہیں چلتا۔
+      </p>
+      <p class="small muted">
+        {ur.translationNote} انگریزی صفحات موجودہ ہیں۔ مکمل ترجمہ مقامی بولنے والے کے جائزے کے
+        بعد آئے گا۔
+      </p>
     </div>
   </section>
+
   <div class="container">
-    <h2>حصے (مسودہ)</h2>
-    <ul>
-      <li><a href={href("/project")}>{ur.nav.project}</a></li>
-      <li><a href={href("/detector")}>{ur.nav.detector}</a></li>
-      <li><a href={href("/journey")}>{ur.nav.journey}</a></li>
-      <li><a href={href("/partnership")}>{ur.nav.partnership}</a></li>
-      <li><a href={href("/research")}>{ur.nav.research}</a></li>
-      <li><a href={href("/team")}>{ur.nav.team}</a></li>
-      <li><a href={href("/models-data")}>{ur.nav.modelsData}</a></li>
-      <li><a href={href("/roadmap")}>{ur.nav.roadmap}</a></li>
-      <li><a href={href("/learn")}>{ur.nav.learn}</a></li>
-      <li><a href={href("/faq")}>{ur.nav.faq}</a></li>
-      <li><a href={href("/contact")}>{ur.nav.contact}</a></li>
-    </ul>
-    <p class="muted small">
-      needsReview: {String(ur.needsReview)}۔ اس ابتدائی ریلیز میں نیویگیشن اور فوٹر ابھی انگریزی میں ہیں۔
-      مکمل اردو صفحات جائزے کے بعد آئیں گے۔
-    </p>
+    <section aria-label="حالت">
+      <h2 class="visually-hidden">حالت</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>لائیو ڈیٹیکٹر</h3>
+          <p><StatusBadge kind="pending" label="لائیو ڈیمو جلد آ رہا ہے" /></p>
+          <p>
+            ڈیٹیکٹر انٹرفیس، قطار، تاریخ اور ایکسپورٹ تیار ہیں۔ تبدیل شدہ ماڈلز کی تصدیق ہو چکی
+            ہے لیکن وہ ابھی شائع نہیں ہوئے، اس لیے ڈیٹیکٹر جلد آ رہا ہے کی حالت دکھاتا ہے اور
+            کوئی تجزیہ نہیں چلاتا۔
+          </p>
+          <p><a href={href("/detector")}>ڈیٹیکٹر کھولیں</a></p>
+        </article>
+        <article class="card">
+          <h3>تحقیقی مقالہ</h3>
+          <p><StatusBadge kind="pending" label="جائزے کے تحت" /></p>
+          <p>
+            مقالہ جائزے کے تحت ہے۔ عنوان، خلاصہ یا خاکے اس وقت تک شائع نہیں ہوں گے جب تک ٹیم
+            تصدیق نہ کرے کہ کیا شیئر کیا جا سکتا ہے۔
+          </p>
+          <p><a href={href("/research")}>تحقیق کا خلاصہ</a></p>
+        </article>
+        <article class="card">
+          <h3>ٹیم کے بیانات</h3>
+          <p>
+            <StatusBadge kind="pending" label="سرٹیفکیٹ شامل ہونا باقی ہے" />
+            <StatusBadge kind="pending" label="تصاویر شامل ہونا باقی ہیں" />
+          </p>
+          <p>
+            ایوارڈز اور فیلڈ ورک کے دعوے پراجیکٹ ٹیم کے بیانات ہیں، تصدیق شدہ حقائق نہیں۔
+            سرٹیفکیٹ اور تصاویر ابھی شامل ہونا باقی ہیں۔
+          </p>
+          <p><a href={href("/awards")}>ایوارڈز، ذرائع کے ساتھ</a></p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>مسئلہ</h2>
+      <figure>
+        <img src={href("/images/stock/bee_on_flower.jpg")} alt="پھول پر شہد کی مکھی" loading="lazy" />
+        <figcaption>
+          مثالی تصویر۔ پھول پر شہد کی مکھی۔ کریڈٹ:
+          <a href={href("/credits")}>تصویری کریڈٹ</a>۔
+        </figcaption>
+      </figure>
+      <p>
+        شہد کی مکھیوں کی کالونیاں بیماریوں، پیراسائٹس اور ماحولیاتی دباؤ کا سامنا کرتی ہیں۔
+        مکھیاں خوراک کی فصلوں کے بڑے حصے کی پولینیشن کرتی ہیں، اس لیے کالونیوں کا نقصان شہد کے
+        فارم سے کہیں آگے اہم ہے۔ چھتے کا دستی معائنہ سست ہے، کالونی میں خلل ڈالتا ہے، اور معائنہ
+        کرنے والے کے تجربے پر بہت زیادہ انحصار کرتا ہے۔ جب تک کچھ بیماریاں آسانی سے نظر آئیں،
+        کالونی پہلے ہی مشکل میں ہو سکتی ہے۔
+      </p>
+      <p>
+        یہ منصوبہ ایک محدود سوال پوچھتا ہے: کیا تصویر، دو چھوٹے امیج ماڈلز سے جانچی گئی، شہد کی
+        مکھیوں کے پالنے والے کو جلد، غیر مداخلتی اشارہ دے سکتی ہے کہ قریب سے دیکھنا ضروری ہے؟
+      </p>
+      <p>
+        پولینیشن اور کالونی نقصانات کے حوالہ شدہ اعداد و شمار ذرائع کے ساتھ
+        <a href={href("/project")}>منصوبہ</a> صفحہ پر ہیں (انگریزی میں)۔
+      </p>
+    </section>
+
+    <section>
+      <h2>یہ کیسے کام کرتا ہے</h2>
+      <ol class="steps">
+        <li>
+          <strong>تصویر لیں۔</strong> مکھیوں یا چھتے کے فریم کی قریب سے، اچھی روشنی میں تصویر،
+          قدرتی دن کی روشنی میں۔
+        </li>
+        <li>
+          <strong>مرحلہ 1 تصویر جانچتا ہے۔</strong> پہلا ماڈل پوچھتا ہے: کیا یہ شہد کی مکھی یا
+          چھتے کی تصویر ہے؟ اگر نہیں، تو جانچ یہیں رک جاتی ہے۔
+        </li>
+        <li>
+          <strong>مرحلہ 2 صحت جانچتا ہے۔</strong> صرف وہ تصاویر جنہیں مرحلہ 1 پاس کرے، صحت مند،
+          ڈیفارمڈ ونگ وائرس (DWV)، وروا مائیٹ انفیسٹیشن، یا چاک بروڈ بیماری کے طور پر لیبل ہوتی
+          ہیں۔
+        </li>
+      </ol>
+      <p>
+        <a href={href("/models-data")}>ماڈل کارڈ، کلاس کے نام اور حدود دیکھیں</a>
+      </p>
+    </section>
+
+    <section>
+      <h2>یہ کیا شامل کرتا ہے — اور کیا نہیں</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>شامل ہے</h3>
+          <ul>
+            <li>ڈیفارمڈ ونگ وائرس (DWV)</li>
+            <li>وروا مائیٹ انفیسٹیشن</li>
+            <li>چاک بروڈ بیماری</li>
+            <li>صحت مند لیبل، جب مندرجہ بالا کا کوئی ظاہری نشان نہ ملے</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>شامل نہیں ہے</h3>
+          <ul>
+            <li>نوزیما، فاؤل بروڈ اور دیگر حالتیں</li>
+            <li>YOLO پر مبنی مکھیوں کی گنتی (تحقیق) اور کالونی کی طاقت کا جائزہ (صرف منصوبہ بند کام)</li>
+            <li>وہ بیماریاں جن کا تصویر میں کوئی ظاہری نشان نہیں</li>
+            <li>کوئی تشخیص نہیں — نتائج کو ماہر کی تصدیق درکار ہے</li>
+          </ul>
+        </article>
+      </div>
+      <p><a href={href("/learn")}>لیبلز کا مطلب سیکھیں (ماہر جائزہ زیر التوا)</a></p>
+    </section>
+
+    <section>
+      <h2>صنعتی شراکت دار کے ساتھ بنایا گیا</h2>
+      <p>
+        SAWiE Ecosystem اس منصوبے کا صنعتی شراکت دار ہے، جو رہنمائی اور تکنیکی مشورہ دیتا ہے۔
+        تعاون میں نمل یونیورسٹی کا دورہ اور باقاعدہ ویڈیو کالز شامل تھیں۔
+      </p>
+      <p><a href={href("/partnership")}>شراکت داری کی تفصیلات اور ذرائع</a></p>
+    </section>
+
+    <Disclaimer />
+
+    <section>
+      <h2>یہاں سے شروع کریں</h2>
+      <div class="grid">
+        <article class="card">
+          <h3><a href={href("/project")}>منصوبہ</a></h3>
+          <p>مسئلہ، طریقہ، ڈیٹا اور حدود، ہر ایک پراجیکٹ رپورٹ سے منسلک۔</p>
+        </article>
+        <article class="card">
+          <h3><a href={href("/journey")}>سفر</a></h3>
+          <p>ڈگری کوہورٹ سے اس سائٹ تک کی ٹائم لائن۔ گمشدہ تاریخیں پلیس ہولڈر ہیں۔</p>
+        </article>
+        <article class="card">
+          <h3><a href={href("/roadmap")}>روڈ میپ</a></h3>
+          <p>تصویر کی جانچ اب۔ گنتی، سینسنگ اور صوتیات صرف منصوبہ بند یا زیر غور ہیں۔</p>
+        </article>
+      </div>
+    </section>
   </div>
 </BaseLayout>
