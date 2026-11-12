@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "../components/BaseLayout.astro";
-import PlaceholderBox from "../components/PlaceholderBox.astro";
 import StatusBadge from "../components/StatusBadge.astro";
 import Disclaimer from "../components/Disclaimer.astro";
 import { SITE, href } from "../site.config";
@@ -19,8 +18,8 @@ import { SITE, href } from "../site.config";
         <a class="btn btn-secondary" href={href("/project")}>Read the project</a>
       </div>
       <p class="small muted" style="margin-top:1rem;">
-        {SITE.name}. The detector interface is built, but the models are not loaded yet, so no
-        analysis runs yet.
+        {SITE.name}. The detector interface is built, and the converted models passed parity
+        testing, but they are not published yet, so no analysis runs yet.
       </p>
     </div>
   </section>
@@ -34,7 +33,8 @@ import { SITE, href } from "../site.config";
           <p><StatusBadge kind="pending" label="Live demo coming soon" /></p>
           <p>
             The detector interface, queue, history, and exports are built. The converted models
-            do not exist yet, so the detector shows a coming-soon state and runs no analysis.
+            passed parity testing but are not published yet, so the detector shows a coming-soon
+            state and runs no analysis.
           </p>
           <p><a href={href("/detector")}>Open the detector</a></p>
         </article>
@@ -81,7 +81,10 @@ import { SITE, href } from "../site.config";
         This project asks a narrower question: can a photo, checked by two small image models,
         give a beekeeper an early, non-invasive signal that a closer look is needed?
       </p>
-      <PlaceholderBox text="cited pollination and colony-loss statistics with sources — the report states figures without citations, so none are published here until sources are confirmed" />
+      <p>
+        Cited figures for pollination value and colony losses are published with sources on the
+        <a href={href("/project")}>Project</a> page.
+      </p>
     </section>
 
     <section>
