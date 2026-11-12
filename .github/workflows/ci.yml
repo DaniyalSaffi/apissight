@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    name: Build and check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - run: npm run check:links
+      - run: npm run gate
+        # Report mode: lists launch blockers without failing the build.
+
+  e2e:
+    name: Playwright smoke + axe
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install chromium
+      - run: npm run build
+      - run: npm run test:e2e
+
+  launch-gate:
+    name: Launch gate (report only)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Report launch blockers (non-blocking for the early release)
+        # Report only: this step lists blockers without failing the build.
+        # To turn strict mode back on for the full launch, remove
+        # `continue-on-error` below. The script itself is unchanged.
+        continue-on-error: true
+        run: |
+          echo "Launch-gate report. The full launch stays blocked until every"
+          echo "placeholder, evidence/consent/approval-pending, and needsReview"
+          echo "item is cleared, allowIndexing is true, and earlyRelease is false."
+          echo "See the local open-items list (kept outside the public repo)."
+          node scripts/check-launch-gate.mjs --strict
