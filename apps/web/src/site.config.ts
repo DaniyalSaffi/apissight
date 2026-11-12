@@ -44,7 +44,19 @@ export const SITE = {
   ],
   /** Contact details, confirmed for publication by the owner on 2026-11-12. */
   contactEmail: "daniyals0316@gmail.com",
-  contactFormEndpoint: null,
+  /**
+   * Message form service. Web3Forms: the access key is embedded in the
+   * Contact page (its documented client-side model) and restricted to this
+   * site's domain in the Web3Forms dashboard. While `accessKey` is empty,
+   * the form renders disabled with an honest "being set up" state and sends
+   * nothing. The owner creates the key with his email and supplies it; only
+   * then does the form send. Never invent a key.
+   */
+  contactForm: {
+    provider: "web3forms",
+    endpoint: "https://api.web3forms.com/submit",
+    accessKey: "",
+  },
   socials: {
     github: null,
     linkedin: "https://www.linkedin.com/in/muhammad-daniyal-saffi-91320322a",
