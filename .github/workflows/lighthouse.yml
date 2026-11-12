@@ -19,10 +19,21 @@ jobs:
       # No SITE_URL/BASE_PATH overrides: the default root-relative build is
       # what the static server below serves, so page assets resolve.
       - run: npm run build
-      - name: Run Lighthouse CI
+      # Split collect/assert/upload (instead of `autorun`) so the reports are
+      # uploaded even when an assertion fails: autorun stops before upload.
+      - name: Collect Lighthouse runs
+        run: npx --yes @lhci/cli@0.15 collect
+      - name: Check Lighthouse budgets
         # Report only: assertion failures are recorded, never block the build.
+        # NOTE: the SEO budget (0.95) cannot pass before launch: every page
+        # carries a noindex meta tag while allowIndexing is false, and
+        # Lighthouse scores that as uncrawlable (0.69 in run #1). The budget
+        # passes on its own when the owner flips allowIndexing at launch.
         continue-on-error: true
-        run: npx --yes @lhci/cli@0.15 autorun
+        run: npx --yes @lhci/cli@0.15 assert
+      - name: Save Lighthouse reports
+        if: always()
+        run: npx --yes @lhci/cli@0.15 upload --target=filesystem --outputDir=./.lighthouseci
       - uses: actions/upload-artifact@v4
         if: always()
         with:
