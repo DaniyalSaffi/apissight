@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="240" viewBox="0 0 720 240" role="img" aria-label="Decorative honeycomb pattern">
+  <defs>
+    <pattern id="hex" width="56" height="97" patternUnits="userSpaceOnUse" patternTransform="scale(1)">
+      <path d="M28 0 L56 16 V48 L28 64 L0 48 V16 Z" fill="none" stroke="#F5A524" stroke-width="2" opacity="0.55"/>
+      <path d="M28 64 L56 80 V112 L28 128 L0 112 V80 Z" fill="none" stroke="#F5A524" stroke-width="2" opacity="0.3" transform="translate(0,-32)"/>
+    </pattern>
+  </defs>
+  <rect width="720" height="240" fill="#FFF8E7"/>
+  <rect width="720" height="240" fill="url(#hex)"/>
+  <path d="M84 48 L112 64 V96 L84 112 L56 96 V64 Z" fill="#F5A524" opacity="0.85"/>
+  <path d="M308 144 L336 160 V192 L308 208 L280 192 V160 Z" fill="#F9C96B" opacity="0.9"/>
+  <path d="M560 32 L588 48 V80 L560 96 L532 80 V48 Z" fill="#F5A524" opacity="0.7"/>
+</svg>

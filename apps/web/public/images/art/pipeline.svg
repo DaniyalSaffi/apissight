@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="200" viewBox="0 0 720 200" role="img" aria-label="Diagram of the two-stage detector pipeline">
+  <rect width="720" height="200" fill="#FFF8E7" rx="16"/>
+  <g font-family="Inter, sans-serif" font-size="15" fill="#1D1408">
+    <rect x="16" y="60" width="150" height="80" rx="12" fill="#FFFFFF" stroke="#B97A0F" stroke-width="2"/>
+    <text x="91" y="95" text-anchor="middle" font-weight="700">Photo</text>
+    <text x="91" y="116" text-anchor="middle" font-size="13">224 x 224, -1 to 1</text>
+    <rect x="196" y="60" width="150" height="80" rx="12" fill="#FDEED3" stroke="#B97A0F" stroke-width="2"/>
+    <text x="271" y="95" text-anchor="middle" font-weight="700">Stage 1: gate</text>
+    <text x="271" y="116" text-anchor="middle" font-size="13">Bee or beehive?</text>
+    <rect x="376" y="60" width="150" height="80" rx="12" fill="#FDEED3" stroke="#B97A0F" stroke-width="2"/>
+    <text x="451" y="95" text-anchor="middle" font-weight="700">Stage 2: health</text>
+    <text x="451" y="116" text-anchor="middle" font-size="13">Runs only if Stage 1</text>
+    <text x="451" y="132" text-anchor="middle" font-size="13">label starts with 0</text>
+    <rect x="556" y="60" width="148" height="80" rx="12" fill="#FFFFFF" stroke="#2E9E5B" stroke-width="2"/>
+    <text x="630" y="95" text-anchor="middle" font-weight="700">Result</text>
+    <text x="630" y="116" text-anchor="middle" font-size="13">Labels + confidence</text>
+    <path d="M166 100 L196 100" stroke="#1D1408" stroke-width="2" marker-end="url(#arrow)"/>
+    <path d="M346 100 L376 100" stroke="#1D1408" stroke-width="2" marker-end="url(#arrow)"/>
+    <path d="M526 100 L556 100" stroke="#1D1408" stroke-width="2" marker-end="url(#arrow)"/>
+    <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#1D1408"/></marker></defs>
+    <text x="271" y="168" text-anchor="middle" font-size="13" fill="#6B5A3E">Invalid photos stop here. Stage 2 is marked skipped.</text>
+    <path d="M271 144 L271 156" stroke="#6B5A3E" stroke-width="1.5"/>
+  </g>
+</svg>

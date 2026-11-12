@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="240" viewBox="0 0 320 240" role="img" aria-label="Original illustration of a honeybee">
+  <rect width="320" height="240" fill="#FFF8E7" rx="16"/>
+  <ellipse cx="160" cy="130" rx="72" ry="48" fill="#F5A524" stroke="#B97A0F" stroke-width="3"/>
+  <path d="M128 88 Q136 130 128 172" fill="none" stroke="#1D1408" stroke-width="10" stroke-linecap="round"/>
+  <path d="M168 84 Q176 130 168 176" fill="none" stroke="#1D1408" stroke-width="10" stroke-linecap="round"/>
+  <path d="M206 92 Q212 130 206 168" fill="none" stroke="#1D1408" stroke-width="8" stroke-linecap="round"/>
+  <ellipse cx="140" cy="72" rx="46" ry="20" fill="#FFFFFF" stroke="#B97A0F" stroke-width="2" opacity="0.9" transform="rotate(-18 140 72)"/>
+  <ellipse cx="196" cy="66" rx="38" ry="16" fill="#FFFFFF" stroke="#B97A0F" stroke-width="2" opacity="0.85" transform="rotate(-8 196 66)"/>
+  <circle cx="96" cy="122" r="7" fill="#1D1408"/>
+  <path d="M92 108 Q80 92 68 88" fill="none" stroke="#1D1408" stroke-width="3" stroke-linecap="round"/>
+  <path d="M100 108 Q96 90 86 80" fill="none" stroke="#1D1408" stroke-width="3" stroke-linecap="round"/>
+  <path d="M228 124 Q244 118 250 128" fill="none" stroke="#1D1408" stroke-width="4" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="240" viewBox="0 0 320 240" role="img" aria-label="Original illustration of a beehive">
+  <rect width="320" height="240" fill="#FFF8E7" rx="16"/>
+  <rect x="40" y="196" width="240" height="10" rx="5" fill="#B97A0F"/>
+  <g stroke="#B97A0F" stroke-width="3">
+    <path d="M90 196 L100 150 Q160 132 220 150 L230 196 Z" fill="#F5A524"/>
+    <path d="M100 150 Q160 132 220 150 L214 118 Q160 102 106 118 Z" fill="#F9C96B"/>
+    <path d="M106 118 Q160 102 214 118 L206 88 Q160 74 114 88 Z" fill="#F5A524"/>
+    <path d="M114 88 Q160 74 206 88 L196 62 Q160 50 124 62 Z" fill="#F9C96B"/>
+    <path d="M124 62 Q160 50 196 62 L184 40 Q160 32 136 40 Z" fill="#F5A524"/>
+  </g>
+  <rect x="146" y="176" width="28" height="20" rx="10" fill="#1D1408"/>
+  <circle cx="256" cy="52" r="5" fill="#1D1408"/>
+  <circle cx="272" cy="70" r="4" fill="#1D1408"/>
+  <circle cx="62" cy="60" r="4" fill="#1D1408"/>
+  <path d="M250 44 Q262 36 274 42" fill="none" stroke="#B97A0F" stroke-width="2"/>
+</svg>
