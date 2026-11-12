@@ -1,4 +1,4 @@
-/** Journey timeline. Dates the report does not state are placeholders. */
+/** Journey timeline. Dates come from the report or public sources; tentative dates are marked approx. */
 export interface TimelineEntry {
   dateLabel: string;
   title: string;
@@ -14,15 +14,15 @@ export const timeline: TimelineEntry[] = [
     status: "confirmed",
   },
   {
-    dateLabel: "[PLACEHOLDER: project start date]",
+    dateLabel: "approx. Sep 2024",
     title: "Project starts",
-    body: "The final-year project begins. The report gives no start date.",
+    body: "The final-year project begins. The report gives no start date; September 2024 is taken from a team member's CV and is tentative.",
     status: "placeholder",
   },
   {
     dateLabel: "[PLACEHOLDER: date]",
     title: "Industry collaboration with SAWiE Ecosystem",
-    body: "SAWiE Ecosystem is the project's industrial partner, providing mentorship and technical guidance. Fritz Böhmler visited Namal University and the team collaborated by video call. (FYP report §1.8.) Dates are not stated in the report.",
+    body: "SAWiE Ecosystem is the project's industrial partner, providing mentorship and technical guidance. Fritz Böhmler visited Namal University and the team collaborated by video call. (FYP report §1.8.) Dates are not stated in the report, and no public source states a start date.",
     status: "placeholder",
   },
   {
@@ -32,9 +32,15 @@ export const timeline: TimelineEntry[] = [
     status: "photos to be added",
   },
   {
-    dateLabel: "May 2025",
+    dateLabel: "24 May 2025",
+    title: "Namal Open House & Career Fair 2025",
+    body: "11th Open House and 2nd Career Fair at Namal University, where final-year projects were showcased. The project is listed in the CDC Open House 2025 projects under its full report title. (Namal event page; CDC listing.)",
+    status: "confirmed",
+  },
+  {
+    dateLabel: "approx. 29 May 2025",
     title: "Innovative Lyallpur 3.0",
-    body: "National project expo at The University of Faisalabad. The team's placing is a team statement; certificate to be added. See the Awards page.",
+    body: "National project expo at The University of Faisalabad. The date is tentative (a participating university's album page; the organiser's blog gives no date). The team's placing is a team statement; certificate to be added. See the Awards page.",
     status: "certificate to be added",
   },
   {
@@ -42,6 +48,12 @@ export const timeline: TimelineEntry[] = [
     title: "AgriFusion 2025",
     body: "National Symposium on Agricultural Innovation at Namal University, organised by ORIC. The team's placing is a team statement; certificate to be added. See the Awards page.",
     status: "certificate to be added",
+  },
+  {
+    dateLabel: "29 Nov 2025",
+    title: "3rd Convocation, Class of 2025",
+    body: "Namal University's 3rd Convocation for the Class of 2025. (Event listing: 29 Nov 2025; a Namal recap is dated 4 Dec 2025.)",
+    status: "confirmed",
   },
   {
     dateLabel: "[PLACEHOLDER: submission date]",
