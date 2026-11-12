@@ -213,3 +213,12 @@ figcaption { font-size: 0.9rem; color: var(--ink-500); margin-top: 0.4rem; }
 .charts-grid canvas { max-width: 100%; }
 .toasts { position: fixed; bottom: 1rem; right: 1rem; display: flex; flex-direction: column; gap: 0.5rem; z-index: 50; max-width: min(24rem, calc(100vw - 2rem)); }
 .toast { background: var(--ink-900); color: #fff; padding: 0.7rem 1rem; border-radius: var(--radius-sm); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25); }
+
+.header-search { display: flex; gap: 0.25rem; align-items: center; }
+.header-search input[type="search"] { width: 9rem; padding: 0.35rem 0.5rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--panel); color: inherit; font: inherit; font-size: 0.9rem; }
+.header-search button { background: var(--panel); color: var(--ink-900); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 0.35rem 0.7rem; cursor: pointer; font: inherit; font-size: 0.9rem; }
+.search-form { display: flex; gap: 0.5rem; align-items: end; flex-wrap: wrap; margin-bottom: 1rem; }
+.search-form label { display: flex; flex-direction: column; gap: 0.3rem; font-weight: 600; flex: 1; min-width: 16rem; }
+.search-form input { padding: 0.5rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--panel); color: inherit; font: inherit; }
+.search-results { list-style: none; padding: 0; display: grid; gap: 1rem; }
+.search-results mark { background: var(--honey-100); }
