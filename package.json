@@ -1,0 +1,28 @@
+{
+  "description": "ApisSight \u2014 AI-assisted honeybee disease detection and colony-health monitoring. Early release; noindex on until the owner flips allowIndexing.",
+  "engines": {
+    "node": ">=22.6"
+  },
+  "name": "apissight",
+  "private": true,
+  "scripts": {
+    "build": "npm run build --workspace=apps/web",
+    "check:links": "node scripts/check-links.mjs",
+    "dev": "npm run dev --workspace=apps/web",
+    "gate": "node scripts/check-launch-gate.mjs",
+    "gate:strict": "node scripts/check-launch-gate.mjs --strict",
+    "pretest:e2e": "node tests/fixtures/generate-stub-models.mjs",
+    "preview": "npm run preview --workspace=apps/web",
+    "test": "node --experimental-strip-types --test tests/unit/*.test.mjs",
+    "test:e2e": "playwright test"
+  },
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.65.0"
+  }
+}

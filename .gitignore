@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+
+# Build output
+apps/web/dist/
+apps/web/.astro/
+
+# Environment / secrets — never commit
+.env
+.env.*
+!.env.example
+
+# Models — never commit originals or converted weights until the IP decision is recorded
+ml/originals/
+ml/converted/
+*.h5
+*.tflite
+packages/models/stage1/
+packages/models/stage2/
+
+# Local-only working documents — never commit to the public repo
+docs/OPEN_ITEMS.md
+docs/RESEARCH_FINDINGS.md
+docs/ACCESS_LOG.md
+docs/OUTREACH_DRAFTS.md
+
+# Parity data — team-supplied images stay private
+ml/parity-data/
+ml/parity-results/
+# Collected parity images (licensed, unlabelled) — kept out of the public repo
+ml/parity_images/
+# Converted models served by the site — kept out until the IP decision is recorded
+apps/web/public/models/
+
+# Test artefacts — generated fixtures and reports, never committed
+tests/fixtures/stub-valid/
+tests/fixtures/stub-invalid/
+test-results/
+playwright-report/
+playwright/.cache/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
