@@ -16,9 +16,10 @@ import { href } from "../site.config";
   />
   <div class="container">
     <p class="muted small">
-      Every fact on this page comes from the final-year project report, with the report section
-      noted. Where the report is silent, the page says so. Reported result figures are published
-      with sources on the <a href={href("/research")}>Research</a> page.
+      Most facts on this page come from the final-year project report, with the report section
+      noted. The statistics section below cites its own sources. Where the report is silent, the
+      page says so. Reported result figures are published with sources on the
+      <a href={href("/research")}>Research</a> page.
     </p>
 
     <h2>Problem</h2>
@@ -34,7 +35,75 @@ import { href } from "../site.config";
       that manual inspection is disruptive to colonies, slow, late in spotting disease, and hard to
       scale across many hives (§1.3). Inspectors also differ in experience, so results vary.
     </p>
-    <PlaceholderBox text="cited statistics for pollination value, colony losses, and crop dependence, with sources" />
+
+    <h2>Why pollination matters — cited figures</h2>
+    <p>
+      These figures come from the sources named, not from the project report. Each figure states
+      what it measures. All sources accessed 12 Nov 2026.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Figure</th><th>What it measures</th><th>Source</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>More than three quarters of the leading types of global food crops rely to some extent on animal pollination.</td>
+            <td>Crop types (count), for yield and/or quality — dependence ranges from slight to essential.</td>
+            <td><a href="https://files.ipbes.net/ipbes-web-prod-public-files/spm_deliverable_3a_pollination_20170222.pdf" rel="noopener">IPBES (2016), Key Message 2</a></td>
+          </tr>
+          <tr>
+            <td>Pollinator-dependent crops contribute 35% of global crop production volume.</td>
+            <td>Production volume, not the count of crop types.</td>
+            <td><a href="https://files.ipbes.net/ipbes-web-prod-public-files/spm_deliverable_3a_pollination_20170222.pdf" rel="noopener">IPBES (2016), Key Message 2</a></td>
+          </tr>
+          <tr>
+            <td>5–8% of current global crop production, worth US$235–577 billion a year (2015 US$), is directly attributable to animal pollination.</td>
+            <td>The production that would be lost without pollinators; the market value of added production, not the cost of replacing pollination.</td>
+            <td><a href="https://files.ipbes.net/ipbes-web-prod-public-files/spm_deliverable_3a_pollination_20170222.pdf" rel="noopener">IPBES (2016), Key Message 3</a></td>
+          </tr>
+          <tr>
+            <td>Nearly 90% of wild flowering plant species depend at least in part on animal pollination.</td>
+            <td>Wild plants, not crops.</td>
+            <td><a href="https://files.ipbes.net/ipbes-web-prod-public-files/spm_deliverable_3a_pollination_20170222.pdf" rel="noopener">IPBES (2016), Key Message 1</a></td>
+          </tr>
+          <tr>
+            <td>Production volume of pollinator-dependent crops rose 300% over five decades.</td>
+            <td>Volume growth to about 2016, making livelihoods more dependent on pollination.</td>
+            <td><a href="https://files.ipbes.net/ipbes-web-prod-public-files/spm_deliverable_3a_pollination_20170222.pdf" rel="noopener">IPBES (2016), Key Message 13</a></td>
+          </tr>
+          <tr>
+            <td>No global Red List assessment exists for insect pollinators. In Europe, 9% of bee species are threatened and populations are declining for 37% (57% data-deficient).</td>
+            <td>A data gap, plus a European-scale assessment only — not a global rate.</td>
+            <td><a href="https://files.ipbes.net/ipbes-web-prod-public-files/spm_deliverable_3a_pollination_20170222.pdf" rel="noopener">IPBES (2016), Key Message 12</a></td>
+          </tr>
+          <tr>
+            <td>16.4% of colonies lost over winter 2017/18 (95% CI 16.1–16.6%), ranging from 2.0% to 32.8% between countries.</td>
+            <td>36 countries (33 European), 25,363 beekeepers, 544,879 colonies; queen problems, dead colonies, and natural disaster combined.</td>
+            <td><a href="https://doi.org/10.1080/00218839.2019.1615661" rel="noopener">Gray et al. (2019), COLOSS survey</a></td>
+          </tr>
+          <tr>
+            <td>20.9% winter loss in 2016/17 (95% CI 20.6–21.3%).</td>
+            <td>30 countries, 14,813 beekeepers, 425,762 colonies. The country group differs slightly from 2017/18.</td>
+            <td><a href="https://strathprints.strath.ac.uk/64589/1/Brodschneider_etal_JAR_2018_Multi_country_loss_rates_of_honey_bee_colonies_during_winter.pdf" rel="noopener">Brodschneider et al. (2018), COLOSS survey</a></td>
+          </tr>
+          <tr>
+            <td>55.6% annual loss and 40.2% winter loss in the USA, 2024–25 (preliminary).</td>
+            <td>2,453 beekeepers, 219,097 colonies; the highest losses since tracking began. Preliminary analysis, not yet peer-reviewed.</td>
+            <td><a href="https://apiaryinspectors.org/US-beekeeping-survey-24-25/" rel="noopener">Giacobino et al., AIA survey</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Loss rates are mortality rates, not changes in total colony numbers: beekeepers replace lost
+      colonies during the year. The European and US surveys use different methods and coverage, so
+      their figures are not directly comparable.
+    </p>
+    <p>
+      No colony-loss rate for Pakistan from an authoritative source was found, and no global
+      colony-loss rate exists in these sources. None is shown.
+    </p>
 
     <h2>Objectives</h2>
     <p>The report sets out objectives, not achieved results (§1.4):</p>
@@ -165,6 +234,10 @@ import { href } from "../site.config";
     <ul>
       <li>Final-year project report (129 pages), Chapters 1, 4, 6, 7, 9, 11, and 13. The report PDF itself is not published on this site.</li>
       <li><a href={href("/research")}>Research summary</a> and <a href={href("/models-data")}>model card</a>.</li>
+      <li>IPBES (2016), Summary for Policymakers of the assessment report on pollinators, pollination and food production. <a href="https://files.ipbes.net/ipbes-web-prod-public-files/spm_deliverable_3a_pollination_20170222.pdf" rel="noopener">PDF</a>. Accessed 12 Nov 2026.</li>
+      <li>Gray et al. (2019), COLOSS winter 2017/18 loss rates. <a href="https://doi.org/10.1080/00218839.2019.1615661" rel="noopener">doi:10.1080/00218839.2019.1615661</a>. Accessed 12 Nov 2026.</li>
+      <li>Brodschneider et al. (2018), COLOSS winter 2016/17 loss rates. <a href="https://strathprints.strath.ac.uk/64589/1/Brodschneider_etal_JAR_2018_Multi_country_loss_rates_of_honey_bee_colonies_during_winter.pdf" rel="noopener">PDF</a>. Accessed 12 Nov 2026.</li>
+      <li>Giacobino et al., preliminary results from the 2024–2025 US Beekeeping Survey. <a href="https://apiaryinspectors.org/US-beekeeping-survey-24-25/" rel="noopener">Apiary Inspectors of America</a>. Accessed 12 Nov 2026.</li>
     </ul>
   </div>
 </BaseLayout>

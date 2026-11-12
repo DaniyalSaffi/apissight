@@ -9,11 +9,11 @@ import { href } from "../site.config";
 
 <BaseLayout
   title="Learn"
-  description="What the detector labels mean, in plain language, pending expert review. No treatment advice."
+  description="What the detector labels mean, in plain language, with general pointers from FAO and university extension sources. Pending expert review."
 >
   <PageHeader
     title="Learn"
-    intro="Plain-language notes on what the detector labels mean. This page is pending expert review and gives no treatment or prevention advice."
+    intro="Plain-language notes on what the detector labels mean, with general pointers from FAO and university extension sources. This page is pending expert review: an apiculture expert must check it before it is treated as guidance."
   >
     <p><StatusBadge kind="review" /></p>
   </PageHeader>
@@ -21,9 +21,10 @@ import { href } from "../site.config";
     <div class="notice notice-warn">
       <p>
         <strong>Pending expert review.</strong> An apiculture expert must review this page before
-        it is treated as guidance. If anything here conflicts with advice from a qualified apiary
-        inspector or lab, follow the inspector or lab. Some bee diseases must be reported to
-        authorities; check local rules.
+        it is treated as guidance. The pointers below are general information from the sources
+        named, not prescriptions for any colony. If anything here conflicts with advice from a
+        qualified apiary inspector or lab, follow the inspector or lab. Some bee diseases must be
+        reported to authorities; check local rules.
       </p>
     </div>
 
@@ -40,18 +41,74 @@ import { href } from "../site.config";
             </figcaption>
           </figure>
         )}
+        <h4>What the project report says</h4>
         <ul>
           {disease.reportNotes.map((note) => <li>{note}</li>)}
         </ul>
         <p class="small muted">Source: {disease.source}</p>
+        {disease.guidance && (
+          <>
+            <h4>What to look for</h4>
+            <ul>
+              {disease.guidance.signs.map((note) => <li>{note}</li>)}
+            </ul>
+            <h4>How it spreads</h4>
+            <ul>
+              {disease.guidance.spread.map((note) => <li>{note}</li>)}
+            </ul>
+            <h4>First steps</h4>
+            <ul>
+              {disease.guidance.firstSteps.map((note) => <li>{note}</li>)}
+            </ul>
+            <h4>Cautions</h4>
+            <ul>
+              {disease.guidance.cautions.map((note) => <li>{note}</li>)}
+            </ul>
+            <p class="small muted">Source: {disease.guidance.source}</p>
+          </>
+        )}
       </article>
     ))}
+
+    <h2>When to call an expert</h2>
+    <p>
+      This page helps you recognise possible signs. It cannot confirm a diagnosis. If you see any
+      disease symptom, check it promptly with a veterinarian or bee-health specialist, and do not
+      move frames, bees, or equipment to healthy colonies until the health status is known.
+      Laboratory testing may be needed to confirm which disease is present.
+    </p>
+    <p>
+      Seek specialist help urgently if many colonies are affected, if bees are dying in large
+      numbers, if you suspect foulbrood, or if signs keep getting worse despite mite control and
+      good husbandry. Spotty brood and Parasitic Mite Syndrome can resemble foulbrood: do not
+      assume chalkbrood or Varroa from a photo alone — get specialist or laboratory confirmation.
+    </p>
+    <p class="small muted">
+      Source: FAO (2020), Good beekeeping practices, Annex 1; Penn State Extension, Viruses in
+      Honey Bees. Accessed 12 Nov 2026. Pending expert review.
+    </p>
+
+    <h2>Notifiable diseases</h2>
+    <p>
+      Varroosis (infestation with <em>Varroa</em> spp.) is listed by the World Organisation for
+      Animal Health (WOAH) in the Terrestrial Animal Health Code. Deformed wing virus and
+      chalkbrood are not on that WOAH list. WOAH notification duties apply to countries through
+      their veterinary authorities. What a beekeeper must report, and to whom, depends on the
+      veterinary regulations where the bees are kept — check the rules that apply to you and follow
+      them. If you are unsure, ask a veterinarian or bee-health specialist promptly.
+    </p>
+    <p class="small muted">
+      Source: WOAH Terrestrial Animal Health Code, Chapter 1.3 (2024 update), Article 1.3.2;
+      Chapter 1.1 on notification. Accessed 12 Nov 2026. The expert review should confirm the
+      current Code wording.
+    </p>
 
     <h2>What a photo cannot tell you</h2>
     <ul>
       <li>Whether a colony is truly disease-free. A photo shows only what is visible in that frame.</li>
       <li>Early disease with no visible sign, internal disease, or queen problems.</li>
       <li>Anything about Nosema, foulbrood, or other conditions outside the four labels.</li>
+      <li>How heavy a Varroa infestation is, or which virus is present. Those need mite counts or laboratory tests.</li>
       <li>What treatment, if any, is right. That needs an inspector or lab, and local rules.</li>
     </ul>
 
