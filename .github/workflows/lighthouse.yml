@@ -1,0 +1,31 @@
+name: Lighthouse
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  lighthouse:
+    name: Lighthouse (report only)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # No SITE_URL/BASE_PATH overrides: the default root-relative build is
+      # what the static server below serves, so page assets resolve.
+      - run: npm run build
+      - name: Run Lighthouse CI
+        # Report only: assertion failures are recorded, never block the build.
+        continue-on-error: true
+        run: npx --yes @lhci/cli@0.15 autorun
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-report
+          path: .lighthouseci/
+          retention-days: 30
