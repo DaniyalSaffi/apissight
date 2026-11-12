@@ -35,7 +35,7 @@ import { href } from "../site.config";
         <p><StatusBadge kind="review" /></p>
         {disease.image && (
           <figure>
-            <img src={href(`/${disease.image.file}`)} alt={disease.image.alt} loading="lazy" />
+            <img src={href(`/${disease.image.file}`)} alt={disease.image.alt} width={disease.image.width} height={disease.image.height} loading="lazy" />
             <figcaption>
               {disease.image.caption} Credits: <a href={href("/credits")}>Image credits</a>.
             </figcaption>
