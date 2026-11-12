@@ -55,3 +55,17 @@ jobs:
           echo "item is cleared, allowIndexing is true, and earlyRelease is false."
           echo "See the local open-items list (kept outside the public repo)."
           node scripts/check-launch-gate.mjs --strict
+
+  audit:
+    name: Dependency audit (report only)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Report vulnerabilities (non-blocking)
+        continue-on-error: true
+        run: npm audit --omit=dev
