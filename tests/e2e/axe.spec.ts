@@ -30,7 +30,7 @@ test("every built page exists in the route list", () => {
 for (const route of routes) {
   test(`axe: ${route} has no violations`, async ({ page }) => {
     await page.goto(route);
-    const results = await new AxeBuilder(page).analyze();
+    const results = await new AxeBuilder({ page }).analyze();
     expect(results.violations).toEqual([]);
   });
 }
@@ -38,6 +38,6 @@ for (const route of routes) {
 test("axe: 404 page has no violations", async ({ page }) => {
   await page.goto("/this-page-does-not-exist-404-check");
   await expect(page.locator("main")).toBeVisible();
-  const results = await new AxeBuilder(page).analyze();
+  const results = await new AxeBuilder({ page }).analyze();
   expect(results.violations).toEqual([]);
 });

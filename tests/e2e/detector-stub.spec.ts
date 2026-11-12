@@ -1,10 +1,18 @@
-/** Detector smoke tests with synthetic stub models (never real weights). */
-import { test, expect, type Page, type Route } from "@playwright/test";
-import { readFileSync, existsSync } from "node:fs";
-import { join, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
-
-const fixturesDir = join(dirname(fileURLToPath(import.meta.url)), "..", "fixtures");
+/**
+ * Detector smoke tests with synthetic stub models (never real weights).
+ *
+ * The stub sets are copied into apps/web/dist by `npm run pretest:e2e`
+ * (see tests/fixtures/generate-stub-models.mjs) so the preview server
+ * serves them as real files: stub-valid at /models, stub-invalid at
+ * /models-invalid. Route interception is NOT used: the detector loads
+ * its models inside a Web Worker, and the registered service worker
+ * handles same-origin requests, so intercepted routes never reach the
+ * worker's fetches. The ?models= query override (same-origin paths
+ * only) selects the model folder.
+ */
+import { test, expect, type Page } from "@playwright/test";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 
 // 1x1 red PNG.
 const PNG = Buffer.from(
@@ -12,23 +20,23 @@ const PNG = Buffer.from(
   "base64",
 );
 
-async function serveStub(page: Page, set: "stub-valid" | "stub-invalid"): Promise<void> {
-  const base = join(fixturesDir, set);
-  if (!existsSync(join(base, "stage1", "model.json"))) {
-    throw new Error(`Stub fixtures missing. Run: node tests/fixtures/generate-stub-models.mjs`);
+test.beforeAll(() => {
+  const probe = join(process.cwd(), "apps", "web", "dist", "models", "stage1", "model.json");
+  if (!existsSync(probe)) {
+    throw new Error(
+      "Stub models missing from apps/web/dist. Run: npm run build && npm run pretest:e2e",
+    );
   }
-  await page.route("**/models/**", async (route: Route) => {
-    const url = new URL(route.request().url());
-    const relative = url.pathname.replace(/^\/models\//, "");
-    const file = join(base, relative);
-    if (!existsSync(file)) {
-      await route.fulfill({ status: 404, body: "stub file not found" });
-      return;
+});
+
+/** Surface the detector's own failure reason (logged via console.warn) in CI output. */
+function captureDiagnostics(page: Page): void {
+  page.on("console", (message) => {
+    if (message.type() === "warning" || message.type() === "error") {
+      console.log(`[page ${message.type()}] ${message.text()}`);
     }
-    const body = readFileSync(file);
-    const contentType = file.endsWith(".json") ? "application/json" : "application/octet-stream";
-    await route.fulfill({ status: 200, body, contentType });
   });
+  page.on("pageerror", (error) => console.log(`[pageerror] ${error.message}`));
 }
 
 async function upload(page: Page, name: string, buffer: Buffer, mimeType = "image/png"): Promise<void> {
@@ -36,7 +44,7 @@ async function upload(page: Page, name: string, buffer: Buffer, mimeType = "imag
 }
 
 test("valid stub: upload, analyse, Stage 1 + Stage 2 results, exports enabled", async ({ page }) => {
-  await serveStub(page, "stub-valid");
+  captureDiagnostics(page);
   await page.goto("/detector");
   await expect(page.locator("#detector-status")).toContainText("Model ready");
   await upload(page, "bee.png", PNG);
@@ -52,8 +60,8 @@ test("valid stub: upload, analyse, Stage 1 + Stage 2 results, exports enabled", 
 });
 
 test("invalid stub: Stage 2 is skipped and no Stage 2 label appears", async ({ page }) => {
-  await serveStub(page, "stub-invalid");
-  await page.goto("/detector");
+  captureDiagnostics(page);
+  await page.goto("/detector?models=/models-invalid");
   await expect(page.locator("#detector-status")).toContainText("Model ready");
   await upload(page, "flower.png", PNG);
   await page.click("#btn-analyse");
@@ -66,7 +74,8 @@ test("invalid stub: Stage 2 is skipped and no Stage 2 label appears", async ({ p
 });
 
 test("no models: friendly coming-soon state, no error text, analysis disabled", async ({ page }) => {
-  await page.goto("/detector");
+  captureDiagnostics(page);
+  await page.goto("/detector?models=/models-absent");
   await expect(page.locator("#detector-status")).toContainText("Live demo coming soon");
   await expect(page.locator("#detector-status")).not.toContainText("not loaded");
   await expect(page.locator("#detector-status")).not.toContainText("failed");
@@ -75,7 +84,7 @@ test("no models: friendly coming-soon state, no error text, analysis disabled", 
 });
 
 test("duplicates are marked and corrupt files fail without blocking the queue", async ({ page }) => {
-  await serveStub(page, "stub-valid");
+  captureDiagnostics(page);
   await page.goto("/detector");
   await expect(page.locator("#detector-status")).toContainText("Model ready");
   await upload(page, "bee.png", PNG);
