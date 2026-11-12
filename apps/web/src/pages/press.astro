@@ -1,14 +1,21 @@
 ---
 import BaseLayout from "../components/BaseLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
-import PlaceholderBox from "../components/PlaceholderBox.astro";
 import { SITE, href } from "../site.config";
+
+const brandColours = [
+  { name: "Honey", hex: "#F5A524", note: "Primary brand colour; the hexagon mark." },
+  { name: "Honey dark", hex: "#8A5C00", note: "Text and accents on light backgrounds." },
+  { name: "Ink", hex: "#1D1408", note: "Headings and body text." },
+  { name: "Paper", hex: "#FFFCF5", note: "Page background (light theme)." },
+  { name: "Honey light", hex: "#FDEED3", note: "Highlights and selected states." },
+];
 ---
 
-<BaseLayout title="Press" description="Press fact sheet and boilerplate. No logos, photos, or quotes until approved.">
+<BaseLayout title="Press" description="Press fact sheet, boilerplate, logo, and brand colours. No photos or quotes until approved.">
   <PageHeader
     title="Press"
-    intro="Fact sheet and boilerplate for journalists and partners. No logos, photos, or quotes are offered until each is approved."
+    intro="Fact sheet, boilerplate, logo, and brand colours for journalists and partners. No photos or quotes are offered until each is approved."
   />
   <div class="container">
     <h2>Boilerplate (draft)</h2>
@@ -29,21 +36,49 @@ import { SITE, href } from "../site.config";
           <tr><th>Team</th><td>Final-year project team, Namal University (names on the <a href={href("/team")}>Team</a> page, with consent status per person)</td></tr>
           <tr><th>Partner</th><td>SAWiE Ecosystem (description approved; confirmed by the project lead, 12 Nov 2026)</td></tr>
           <tr><th>What it does</th><td>Two-stage photo check: honeybee/beehive gate, then Healthy / DWV / Varroa / Chalkbrood labels</td></tr>
-          <tr><th>Status</th><td>Prototype. Live detector pending conversion and parity testing. Paper under review.</td></tr>
-          <tr><th>Accuracy</th><td>Reported project results on the <a href={href("/research")}>Research</a> page, with sources. Demo-model measurement pending parity testing.</td></tr>
+          <tr><th>Status</th><td>Prototype. Converted models passed parity testing on 12 Nov 2026; live detector pending the model-publishing decision. Paper under review.</td></tr>
+          <tr><th>Accuracy</th><td>Reported project results on the <a href={href("/research")}>Research</a> page, with sources. Demo-model measurement pending a labelled test set.</td></tr>
           <tr><th>Awards</th><td>Team claims; certificates to be added; see the <a href={href("/awards")}>Awards</a> page.</td></tr>
           <tr><th>Key dates</th><td>Project start approx. Sep 2024 (tentative). AgriFusion 2025: 31 May 2025. Innovative Lyallpur 3.0: approx. 29 May 2025. Other dates are being confirmed; see the <a href={href("/journey")}>Journey</a> page.</td></tr>
         </tbody>
       </table>
     </div>
 
-    <h2>Assets</h2>
-    <PlaceholderBox text="logo files, team photos, field photos, and screenshots, each with rights and permissions confirmed" />
-    <p>No assets are offered for download in this early release. Do not reuse images, logos, or text from this site without written permission; ownership and licensing are unconfirmed.</p>
+    <h2>Logo and brand colours</h2>
+    <p>
+      <img src={href("/favicon.svg")} alt="ApisSight hexagon mark" width="40" height="44" />
+    </p>
+    <p>
+      <a href={href("/favicon.svg")} download>Download the logo (SVG)</a> — the hexagon mark used
+      in the site header. Do not reuse the logo, images, or text from this site without written
+      permission; ownership and licensing are unconfirmed.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Colour</th><th>Swatch</th><th>Hex</th><th>Use</th></tr>
+        </thead>
+        <tbody>
+          {brandColours.map((colour) => (
+            <tr>
+              <th>{colour.name}</th>
+              <td>
+                <span
+                  style={`display:inline-block;width:2rem;height:1.25rem;background:${colour.hex};border:1px solid #eadfc8;`}
+                  aria-hidden="true"
+                ></span>
+              </td>
+              <td><code>{colour.hex}</code></td>
+              <td>{colour.note}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p>No team or field photos are offered yet. No screenshots are offered yet.</p>
 
     <h2>Quotes</h2>
     <p>No quotes are offered. No quote from any person or partner exists in the project report, and none has been approved for publication.</p>
-    <PlaceholderBox text="approved quotes, if any, with speaker name, role, date, and written permission" />
 
     <h2>Press contact</h2>
     <p>

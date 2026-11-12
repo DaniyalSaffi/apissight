@@ -1,20 +1,46 @@
 ---
 import BaseLayout from "../components/BaseLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
-import PlaceholderBox from "../components/PlaceholderBox.astro";
-import { href } from "../site.config";
+import { SITE, href } from "../site.config";
+import { newsPosts } from "../data/news";
 ---
 
-<BaseLayout title="News" description="News and updates. No posts yet.">
+<BaseLayout title="News" description="News and updates about the ApisSight project.">
   <PageHeader
     title="News"
-    intro="Updates about the project, the detector, and the research paper. Nothing is posted here yet."
+    intro="Updates about the project, the detector, and the research paper. Posts appear here only when something real happens."
   />
   <div class="container">
-    <div class="notice">
-      <p><strong>No news posts yet.</strong> This page will carry dated updates only when something real happens: a parity result, a paper decision, a confirmed event, or a launch step. Nothing is invented to fill it.</p>
-    </div>
-    <PlaceholderBox text="first news post: what happened, when, with a link to the source (only after it happens)" />
+    <p>
+      <a href={href("/rss.xml")}>RSS feed</a> for these updates.
+    </p>
+    {newsPosts.map((post) => (
+      <article id={post.slug}>
+        <h2>{post.title}</h2>
+        <p class="small muted">
+          <time datetime={post.date}>
+            {new Date(`${post.date}T00:00:00Z`).toLocaleDateString("en-GB", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+              timeZone: "UTC",
+            })}
+          </time>
+        </p>
+        <p><strong>{post.summary}</strong></p>
+        {post.body.map((paragraph) => (
+          <p>{paragraph}</p>
+        ))}
+        <p>
+          {post.links.map((link, index) => (
+            <>
+              {index > 0 && " · "}
+              <a href={href(link.path)}>{link.label}</a>
+            </>
+          ))}
+        </p>
+      </article>
+    ))}
     <p>
       Meanwhile, see <a href={href("/research")}>Research</a>,
       <a href={href("/roadmap")}>Roadmap</a>, and
