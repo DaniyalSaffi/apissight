@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../components/BaseLayout.astro";
 import StatusBadge from "../../components/StatusBadge.astro";
+import Disclaimer from "../../components/Disclaimer.astro";
 import { SITE, href } from "../../site.config";
 import { de } from "../../i18n/de";
 ---
@@ -16,38 +17,166 @@ import { de } from "../../i18n/de";
       <p><StatusBadge kind="review" label="Übersetzung: Prüfung ausstehend (needsReview)" /></p>
       <h1>Gesunde Bienenstöcke, schärfere Augen.</h1>
       <p class="lead">
-        {de.translationNote} Die deutsche Fassung ist ein Entwurf. Die englischen Seiten sind die
-        aktuellen Seiten. Die vollständige Übersetzung folgt nach Prüfung durch Muttersprachler.
-      </p>
-      <p class="lead">
-        {SITE.name} ist ein Abschlussprojekt der Namal University: eine
-        fotobasierte Prüfung auf drei Bienenkrankheiten, als Entscheidungshilfe — nicht als Ersatz
-        für die Inspektion durch Fachleute.
+        Eine Fotoprüfung, die Imkerinnen und Imkern hilft, drei Bienenkrankheiten früh zu
+        erkennen — aus einem Abschlussprojekt der Namal University. Sie unterstützt die
+        Inspektion. Sie ersetzt sie nie.
       </p>
       <div class="hero-actions">
-        <a class="btn" href={href("/")}>Zur englischen Startseite</a>
-        <a class="btn btn-secondary" href={href("/detector")}>Detektor (Englisch)</a>
+        <a class="btn" href={href("/detector")}>So funktioniert der Detektor</a>
+        <a class="btn btn-secondary" href={href("/project")}>Zum Projekt</a>
       </div>
+      <p class="small muted" style="margin-top:1rem;">
+        {SITE.name}. Die Detektoroberfläche ist gebaut und die konvertierten Modelle haben den
+        Paritätstest bestanden, aber sie sind noch nicht veröffentlicht, also läuft noch keine
+        Analyse.
+      </p>
+      <p class="small muted">
+        {de.translationNote} Die englischen Seiten sind die aktuellen Seiten. Die vollständige
+        Übersetzung folgt nach Prüfung durch Muttersprachler.
+      </p>
     </div>
   </section>
+
   <div class="container">
-    <h2>Bereiche (Entwurf)</h2>
-    <ul>
-      <li><a href={href("/project")}>{de.nav.project}</a></li>
-      <li><a href={href("/detector")}>{de.nav.detector}</a></li>
-      <li><a href={href("/journey")}>{de.nav.journey}</a></li>
-      <li><a href={href("/partnership")}>{de.nav.partnership}</a></li>
-      <li><a href={href("/research")}>{de.nav.research}</a></li>
-      <li><a href={href("/team")}>{de.nav.team}</a></li>
-      <li><a href={href("/models-data")}>{de.nav.modelsData}</a></li>
-      <li><a href={href("/roadmap")}>{de.nav.roadmap}</a></li>
-      <li><a href={href("/learn")}>{de.nav.learn}</a></li>
-      <li><a href={href("/faq")}>{de.nav.faq}</a></li>
-      <li><a href={href("/contact")}>{de.nav.contact}</a></li>
-    </ul>
-    <p class="muted small">
-      needsReview: {String(de.needsReview)}. Navigation und Fußzeile sind in dieser frühen Version noch
-      auf Englisch. Vollständige deutsche Seiten folgen nach Prüfung.
-    </p>
+    <section aria-label="Status">
+      <h2 class="visually-hidden">Status</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Live-Detektor</h3>
+          <p><StatusBadge kind="pending" label="Live-Demo kommt bald" /></p>
+          <p>
+            Detektoroberfläche, Warteschlange, Verlauf und Exporte sind gebaut. Die konvertierten
+            Modelle sind geprüft, aber noch nicht veröffentlicht, also zeigt der Detektor einen
+            Bald-verfügbar-Status und führt keine Analyse aus.
+          </p>
+          <p><a href={href("/detector")}>Detektor öffnen</a></p>
+        </article>
+        <article class="card">
+          <h3>Forschungspapier</h3>
+          <p><StatusBadge kind="pending" label="In Begutachtung" /></p>
+          <p>
+            Das Papier ist in Begutachtung. Titel, Zusammenfassung und Abbildungen werden erst
+            veröffentlicht, wenn das Team bestätigt, was geteilt werden darf.
+          </p>
+          <p><a href={href("/research")}>Forschungsübersicht</a></p>
+        </article>
+        <article class="card">
+          <h3>Angaben des Teams</h3>
+          <p>
+            <StatusBadge kind="pending" label="Zertifikat folgt" />
+            <StatusBadge kind="pending" label="Fotos folgen" />
+          </p>
+          <p>
+            Auszeichnungen und Feldarbeitsangaben sind Aussagen des Projektteams, keine geprüften
+            Fakten. Zertifikate und Fotos folgen noch.
+          </p>
+          <p><a href={href("/awards")}>Auszeichnungen, mit Quellen</a></p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>Das Problem</h2>
+      <figure>
+        <img src={href("/images/stock/bee_on_flower.jpg")} alt="Eine Honigbiene auf einer Blume" loading="lazy" />
+        <figcaption>
+          Illustratives Bild. Eine Honigbiene auf einer Blume. Bildnachweise:
+          <a href={href("/credits")}>Bildnachweise</a>.
+        </figcaption>
+      </figure>
+      <p>
+        Honigbienenvölker sind Krankheiten, Parasiten und Umweltstress ausgesetzt. Bienen
+        bestäuben einen großen Teil der Nahrungspflanzen, daher betreffen Völkerverluste weit
+        mehr als den Bienenstand. Die manuelle Stockinspektion ist langsam, stört das Volk und
+        hängt stark von der Erfahrung der inspizierenden Person ab. Wenn manche Krankheiten
+        leicht zu sehen sind, kann das Volk bereits in Schwierigkeiten sein.
+      </p>
+      <p>
+        Dieses Projekt stellt eine engere Frage: Kann ein Foto, geprüft von zwei kleinen
+        Bildmodellen, einer Imkerin oder einem Imker ein frühes, nicht-invasives Signal geben,
+        dass ein genauerer Blick nötig ist?
+      </p>
+      <p>
+        Zitierte Zahlen zu Bestäubung und Völkerverlusten stehen mit Quellen auf der
+        <a href={href("/project")}>Projektseite</a> (auf Englisch).
+      </p>
+    </section>
+
+    <section>
+      <h2>So funktioniert es</h2>
+      <ol class="steps">
+        <li>
+          <strong>Foto aufnehmen.</strong> Ein nahes, gut beleuchtetes Foto von Bienen oder einer
+          Wabe, bei Tageslicht.
+        </li>
+        <li>
+          <strong>Stufe 1 prüft das Foto.</strong> Das erste Modell fragt: Ist dies ein Bild von
+          Honigbienen oder einem Bienenstock? Wenn nicht, endet die Prüfung hier.
+        </li>
+        <li>
+          <strong>Stufe 2 prüft die Gesundheit.</strong> Nur Fotos, die Stufe 1 bestehen, werden
+          als Gesund, Deformierter-Flügel-Virus (DWV), Varroamilbenbefall oder Kalkbrut
+          eingestuft.
+        </li>
+      </ol>
+      <p>
+        <a href={href("/models-data")}>Modellkarte, Klassennamen und Grenzen ansehen</a>
+      </p>
+    </section>
+
+    <section>
+      <h2>Was es abdeckt — und was nicht</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Abgedeckt</h3>
+          <ul>
+            <li>Deformierter-Flügel-Virus (DWV)</li>
+            <li>Varroamilbenbefall</li>
+            <li>Kalkbrut</li>
+            <li>Gesund-Einstufung, wenn kein sichtbares Anzeichen gefunden wird</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Nicht abgedeckt</h3>
+          <ul>
+            <li>Nosema, Faulbrut und andere Erkrankungen</li>
+            <li>YOLO-basierte Bienenzählung (Forschung) und Beurteilung der Volksstärke (nur geplante Arbeit)</li>
+            <li>Krankheiten ohne sichtbares Anzeichen auf einem Foto</li>
+            <li>Jegliche Diagnose — Ergebnisse brauchen eine Bestätigung durch Fachleute</li>
+          </ul>
+        </article>
+      </div>
+      <p><a href={href("/learn")}>Bedeutung der Einstufungen (Prüfung durch Fachleute ausstehend)</a></p>
+    </section>
+
+    <section>
+      <h2>Mit einem Industriepartner gebaut</h2>
+      <p>
+        SAWiE Ecosystem ist der Industriepartner des Projekts und bietet Mentoring und technische
+        Beratung. Die Zusammenarbeit umfasste einen Besuch an der Namal University und
+        regelmäßige Videogespräche.
+      </p>
+      <p><a href={href("/partnership")}>Partnerschaftsdetails und Quellen</a></p>
+    </section>
+
+    <Disclaimer />
+
+    <section>
+      <h2>Hier beginnen</h2>
+      <div class="grid">
+        <article class="card">
+          <h3><a href={href("/project")}>Das Projekt</a></h3>
+          <p>Problem, Methode, Daten und Grenzen, jeweils mit Bezug zum Projektbericht.</p>
+        </article>
+        <article class="card">
+          <h3><a href={href("/journey")}>Der Verlauf</a></h3>
+          <p>Zeitachse von der Studienkohorte bis zu dieser Website. Fehlende Daten sind Platzhalter.</p>
+        </article>
+        <article class="card">
+          <h3><a href={href("/roadmap")}>Der Fahrplan</a></h3>
+          <p>Fotoprüfungen jetzt. Zählung, Sensorik und Akustik sind nur geplant oder in Erkundung.</p>
+        </article>
+      </div>
+    </section>
   </div>
 </BaseLayout>
