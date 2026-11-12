@@ -198,13 +198,28 @@ const stage2ModelUrl = modelHref("/stage2/model.json");
 
   <script>
     import { initDetector } from "../lib/detector/ui";
-    import { modelHref } from "../site.config";
+    import { href, modelHref } from "../site.config";
     const app = document.getElementById("detector-app");
-    initDetector({
-      stage1ManifestUrl: app?.dataset.stage1Manifest ?? modelHref("/stage1/manifest.json"),
-      stage1ModelUrl: app?.dataset.stage1Model ?? modelHref("/stage1/model.json"),
-      stage2ManifestUrl: app?.dataset.stage2Manifest ?? modelHref("/stage2/manifest.json"),
-      stage2ModelUrl: app?.dataset.stage2Model ?? modelHref("/stage2/model.json"),
-    });
+    // Test/support hook: ?models=/some-folder points the detector at a
+    // different same-origin model folder (the e2e tests serve the invalid
+    // stub set this way). Only single-leading-slash paths are honoured.
+    const override = new URLSearchParams(location.search).get("models");
+    const overrideBase =
+      override && /^\/(?!\/)/.test(override) ? href(override) : null;
+    initDetector(
+      overrideBase
+        ? {
+            stage1ManifestUrl: `${overrideBase}/stage1/manifest.json`,
+            stage1ModelUrl: `${overrideBase}/stage1/model.json`,
+            stage2ManifestUrl: `${overrideBase}/stage2/manifest.json`,
+            stage2ModelUrl: `${overrideBase}/stage2/model.json`,
+          }
+        : {
+            stage1ManifestUrl: app?.dataset.stage1Manifest ?? modelHref("/stage1/manifest.json"),
+            stage1ModelUrl: app?.dataset.stage1Model ?? modelHref("/stage1/model.json"),
+            stage2ManifestUrl: app?.dataset.stage2Manifest ?? modelHref("/stage2/manifest.json"),
+            stage2ModelUrl: app?.dataset.stage2Model ?? modelHref("/stage2/model.json"),
+          },
+    );
   </script>
 </BaseLayout>
