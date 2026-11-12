@@ -91,7 +91,7 @@ export const SITE = {
     boehmlerTitle: "CEO and Managing Director",
   },
   disclaimer:
-    "Decision support only. Confirm with a qualified apiary inspector or lab. Some bee diseases must be reported to authorities.",
+    "Confirm with a qualified apiary inspector or lab. Some bee diseases must be reported to authorities.",
   privacyNote:
     "Your images are analysed on your device and are not uploaded.",
 } as const;
