@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../components/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { imageCredits } from "../data/imageCredits";
+import { href } from "../site.config";
+---
+
+<BaseLayout
+  title="Image credits"
+  description="Sources, authors, and licences for every photograph used on this site."
+>
+  <PageHeader
+    title="Image credits"
+    intro="Every photograph on this site, with its source, author, and licence. All photos are illustrative only."
+  />
+  <div class="container">
+    <p>
+      All site photographs come from Wikimedia Commons under free licences (CC0, public domain,
+      CC BY, or CC BY-SA). Each file's licence was checked against its Commons metadata when
+      collected. Photos are decorative or illustrative only and are captioned
+      "Illustrative image" wherever they appear. None of them shows this project's field work,
+      team, events, or partner.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Photo</th><th>Caption</th><th>Author</th><th>Licence</th><th>Source</th></tr>
+        </thead>
+        <tbody>
+          {imageCredits.map((credit) => (
+            <tr>
+              <td>
+                <img src={href(`/${credit.file}`)} alt={credit.caption} loading="lazy" width="180" />
+              </td>
+              <td>{credit.caption}</td>
+              <td>{credit.author}</td>
+              <td><a href={credit.licenceUrl} rel="noopener">{credit.licence}</a></td>
+              <td><a href={credit.sourceUrl} rel="noopener">Wikimedia Commons</a></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <h2>Original artwork</h2>
+    <p>
+      The SVG illustrations on this site (honeycomb pattern, bee, hive, pipeline diagram) and the
+      placeholder images were created for this site and are original work. They are not
+      photographs and need no external credit.
+    </p>
+    <h2>What is not used</h2>
+    <p>
+      No logos (SAWiE, NARC, HBRI, Namal University, competition organisers), no photos of
+      identifiable people, no event or competition photos, no project poster, and nothing copied
+      from other websites without a free licence. Field-visit, team, award, and partner sections
+      keep placeholders until the team supplies real photos with permission.
+    </p>
+    <p>
+      Full credit file, as kept in the repository:
+      <a href={href("/images/CREDITS.md")}>public/images/CREDITS.md</a>
+    </p>
+  </div>
+</BaseLayout>

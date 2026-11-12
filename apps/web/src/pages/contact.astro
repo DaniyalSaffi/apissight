@@ -1,0 +1,87 @@
+---
+import BaseLayout from "../components/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { SITE } from "../site.config";
+---
+
+<BaseLayout title="Contact" description="Contact the project team by email, LinkedIn, or WhatsApp. The message form is not connected yet.">
+  <PageHeader
+    title="Contact"
+    intro="Reach the project lead directly. The message form below is the main option once it is connected; for now it is a placeholder and sends nothing."
+  />
+  <div class="container">
+    <h2>Direct contact</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <tr>
+            <th>Email</th>
+            <td><a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a></td>
+          </tr>
+          <tr>
+            <th>LinkedIn</th>
+            <td>
+              {SITE.socials.linkedin && (
+                <a href={SITE.socials.linkedin} rel="noopener">Muhammad Daniyal Saffi on LinkedIn</a>
+              )}
+            </td>
+          </tr>
+          <tr>
+            <th>WhatsApp</th>
+            <td>
+              {SITE.whatsapp.displayNumber}
+              {" — "}
+              <a href={SITE.whatsapp.chatUrl} rel="noopener">Start a WhatsApp chat</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted">
+      Messages sent through WhatsApp go through WhatsApp/Meta under their terms. See the Privacy
+      page. Do not send sensitive personal information through any channel on this page.
+    </p>
+
+    <h2>Message form (placeholder)</h2>
+    <p class="muted">
+      This form does nothing yet. Choosing a form service, and confirming where messages go, are
+      open items. Until then, use email or WhatsApp above. Do not send sensitive information
+      through this form.
+    </p>
+    <form class="contact" id="contact-form" novalidate>
+      <div>
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" autocomplete="name" />
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" />
+      </div>
+      <div>
+        <label for="topic">Topic</label>
+        <select id="topic" name="topic">
+          <option>General question</option>
+          <option>Research collaboration</option>
+          <option>Beekeeper feedback</option>
+          <option>Press</option>
+          <option>Report a problem with this site</option>
+        </select>
+      </div>
+      <div>
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="6"></textarea>
+      </div>
+      <p id="form-notice" class="notice" hidden>
+        The contact form is not connected yet, so your message was not sent. Please use the email
+        address or WhatsApp link above instead.
+      </p>
+      <button type="submit">Send (placeholder — sends nothing)</button>
+    </form>
+    <script is:inline>
+      document.getElementById("contact-form").addEventListener("submit", function (event) {
+        event.preventDefault();
+        document.getElementById("form-notice").hidden = false;
+      });
+    </script>
+  </div>
+</BaseLayout>

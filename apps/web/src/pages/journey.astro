@@ -1,0 +1,41 @@
+---
+import BaseLayout from "../components/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import PlaceholderBox from "../components/PlaceholderBox.astro";
+import StatusBadge from "../components/StatusBadge.astro";
+import { timeline } from "../data/timeline";
+import { href } from "../site.config";
+---
+
+<BaseLayout title="Journey" description="Timeline from the degree cohort to this site. Missing dates are placeholders.">
+  <PageHeader
+    title="Journey"
+    intro="From a final-year project brief to this site. Dates the report does not state are shown as placeholders, not guessed."
+  />
+  <div class="container">
+    <PlaceholderBox text="journey video (hosted externally, with captions and transcript) and dated photos, with permissions confirmed" />
+    <ol class="timeline">
+      {timeline.map((entry) => (
+        <li>
+          <div class="date">{entry.dateLabel}</div>
+          <h3 style="margin-top:0.2rem;">{entry.title}</h3>
+          <p>{entry.body}</p>
+          {entry.status === "certificate to be added" && <StatusBadge kind="pending" label="Certificate to be added" />}
+          {entry.status === "photos to be added" && <StatusBadge kind="pending" label="Photos to be added" />}
+          {entry.status === "placeholder" && <StatusBadge kind="pending" label="Date to be confirmed" />}
+        </li>
+      ))}
+    </ol>
+    <h2>What is missing</h2>
+    <p>
+      Most journey dates are missing because the project report gives no dates except the degree
+      cohort. The team will supply the project start date, collaboration dates, visit dates, and the
+      paper submission date. Until then, this timeline stays part placeholder by design.
+    </p>
+    <p>
+      <a href={href("/awards")}>Awards, with organiser sources</a> ·
+      <a href={href("/field-work")}>Field work, as stated by the team</a> ·
+      <a href={href("/research")}>Research summary</a>
+    </p>
+  </div>
+</BaseLayout>

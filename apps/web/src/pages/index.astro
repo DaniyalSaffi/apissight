@@ -1,0 +1,161 @@
+---
+import BaseLayout from "../components/BaseLayout.astro";
+import PlaceholderBox from "../components/PlaceholderBox.astro";
+import StatusBadge from "../components/StatusBadge.astro";
+import Disclaimer from "../components/Disclaimer.astro";
+import { SITE, href } from "../site.config";
+---
+
+<BaseLayout title="Home">
+  <section class="hero">
+    <div class="container">
+      <h1>Healthy hives, sharper eyes.</h1>
+      <p class="lead">
+        A photo check that helps beekeepers spot three honeybee diseases early, built from a
+        final-year project at Namal University. It supports inspection. It never replaces it.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href={href("/detector")}>See how the detector works</a>
+        <a class="btn btn-secondary" href={href("/project")}>Read the project</a>
+      </div>
+      <p class="small muted" style="margin-top:1rem;">
+        {SITE.name}. The detector interface is built, but the models are not loaded yet, so no
+        analysis runs yet.
+      </p>
+    </div>
+  </section>
+
+  <div class="container">
+    <section aria-label="Status">
+      <div class="grid">
+        <article class="card">
+          <h3>Live detector</h3>
+          <p><StatusBadge kind="pending" label="Live demo coming soon" /></p>
+          <p>
+            The detector interface, queue, history, and exports are built. The converted models
+            do not exist yet, so the detector shows a coming-soon state and runs no analysis.
+          </p>
+          <p><a href={href("/detector")}>Open the detector</a></p>
+        </article>
+        <article class="card">
+          <h3>Research paper</h3>
+          <p><StatusBadge kind="pending" label="Under review" /></p>
+          <p>
+            The paper is under review. No title, abstract, or figures are published here until the
+            team confirms what may be shared.
+          </p>
+          <p><a href={href("/research")}>Research summary</a></p>
+        </article>
+        <article class="card">
+          <h3>Team statements</h3>
+          <p>
+            <StatusBadge kind="pending" label="Certificate to be added" />
+            <StatusBadge kind="pending" label="Photos to be added" />
+          </p>
+          <p>
+            Awards and field-work claims are statements by the project team, never verified
+            facts. Certificates and photos are still to be added.
+          </p>
+          <p><a href={href("/awards")}>Awards, with sources shown</a></p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>The problem</h2>
+      <figure>
+        <img src={href("/images/stock/bee_on_flower.jpg")} alt="A honeybee on a flower" loading="lazy" />
+        <figcaption>
+          Illustrative image. A honeybee on a flower. Credits:
+          <a href={href("/credits")}>Image credits</a>.
+        </figcaption>
+      </figure>
+      <p>
+        Honeybee colonies face diseases, parasites, and environmental stress. Bees pollinate a large
+        share of food crops, so colony losses matter far beyond the apiary. Manual hive inspection
+        is slow, disruptive to the colony, and depends heavily on the inspector's experience. By the
+        time some diseases are easy to see, the colony may already be in trouble.
+      </p>
+      <p>
+        This project asks a narrower question: can a photo, checked by two small image models,
+        give a beekeeper an early, non-invasive signal that a closer look is needed?
+      </p>
+      <PlaceholderBox text="cited pollination and colony-loss statistics with sources — the report states figures without citations, so none are published here until sources are confirmed" />
+    </section>
+
+    <section>
+      <h2>How it works</h2>
+      <ol class="steps">
+        <li>
+          <strong>Take a photo.</strong> A close, well-lit photo of bees or a hive frame, in natural
+          daylight.
+        </li>
+        <li>
+          <strong>Stage 1 checks the photo.</strong> The first model asks: is this a honeybee or
+          beehive image? If not, the check stops here.
+        </li>
+        <li>
+          <strong>Stage 2 checks health.</strong> Only photos that pass Stage 1 are labelled
+          Healthy, Deformed Wing Virus (DWV), Varroa Mite Infestation, or Chalkbrood Disease.
+        </li>
+      </ol>
+      <p>
+        <a href={href("/models-data")}>See the model card, class names, and limits</a>
+      </p>
+    </section>
+
+    <section>
+      <h2>What it covers — and what it does not</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Covered</h3>
+          <ul>
+            <li>Deformed Wing Virus (DWV)</li>
+            <li>Varroa Mite Infestation</li>
+            <li>Chalkbrood Disease</li>
+            <li>Healthy label, when no visible sign of the above is found</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Not covered</h3>
+          <ul>
+            <li>Nosema, foulbrood, and other conditions</li>
+            <li>YOLO-based bee counting (research) and colony-strength assessment (planned work only)</li>
+            <li>Diseases with no visible sign in a photo</li>
+            <li>Any diagnosis — results need expert confirmation</li>
+          </ul>
+        </article>
+      </div>
+      <p><a href={href("/learn")}>Learn what the labels mean (pending expert review)</a></p>
+    </section>
+
+    <section>
+      <h2>Built with an industry partner</h2>
+      <p>
+        SAWiE Ecosystem is the project's industrial partner, providing mentorship and technical
+        guidance. The collaboration included a visit to Namal University and regular video calls.
+      </p>
+      <p><a href={href("/partnership")}>Partnership details and sources</a></p>
+    </section>
+
+    <Disclaimer />
+
+    <section>
+      <h2>Start here</h2>
+      <div class="grid">
+        <article class="card">
+          <h3><a href={href("/project")}>The project</a></h3>
+          <p>Problem, method, data, and limits, each tied to the project report.</p>
+        </article>
+        <article class="card">
+          <h3><a href={href("/journey")}>The journey</a></h3>
+          <p>Timeline from degree cohort to this site. Missing dates are placeholders.</p>
+        </article>
+        <article class="card">
+          <h3><a href={href("/roadmap")}>The roadmap</a></h3>
+          <p>Photo checks now. Counting, sensing, and acoustics are planned or exploring only.</p>
+        </article>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

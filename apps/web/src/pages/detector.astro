@@ -1,0 +1,210 @@
+---
+import BaseLayout from "../components/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import StatusBadge from "../components/StatusBadge.astro";
+import Disclaimer from "../components/Disclaimer.astro";
+import { SITE, href, modelHref } from "../site.config";
+
+const stage1ManifestUrl = modelHref("/stage1/manifest.json");
+const stage1ModelUrl = modelHref("/stage1/model.json");
+const stage2ManifestUrl = modelHref("/stage2/manifest.json");
+const stage2ModelUrl = modelHref("/stage2/model.json");
+---
+
+<BaseLayout
+  title="Detector"
+  description="A two-stage photo check that runs on your device. Stage 1 asks whether the photo shows a honeybee or a beehive. Stage 2 runs only when Stage 1 says yes."
+>
+  <PageHeader
+    title="Detector"
+    intro="A two-stage photo check. Stage 1 asks whether the photo shows a honeybee or a beehive. Stage 2 runs only when Stage 1 says yes."
+  >
+    <p><StatusBadge kind="pending" label="Live demo coming soon: the models are being verified" /></p>
+  </PageHeader>
+  <div
+    class="container"
+    id="detector-app"
+    data-stage1-manifest={stage1ManifestUrl}
+    data-stage1-model={stage1ModelUrl}
+    data-stage2-manifest={stage2ManifestUrl}
+    data-stage2-model={stage2ModelUrl}
+  >
+    <div id="detector-status" class="notice" role="status">
+      <p><strong>Checking for models…</strong> Looking for the converted model files.</p>
+    </div>
+    <p>
+      <button type="button" id="detector-retry" class="btn" hidden>Check for models again</button>
+    </p>
+    <div id="offline-note" class="notice notice-warn" hidden>
+      <p><strong>You are offline.</strong> The detector works offline after its first load, once the models are downloaded.</p>
+    </div>
+    <noscript>
+      <div class="notice notice-warn">
+        <p><strong>The detector needs JavaScript.</strong> The explanation below still applies, but no analysis can run without JavaScript.</p>
+      </div>
+    </noscript>
+
+    <h2>Try it</h2>
+    <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Add images to analyse">
+      <p><strong>Drop images here, paste an image, or choose files.</strong></p>
+      <p class="small muted">JPEG, PNG, or WebP, up to 20 MB each. On a phone, choosing files offers the camera. Images are analysed on this device and are not uploaded.</p>
+    </div>
+    <input id="file-input" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden />
+
+    <h3>Queue</h3>
+    <p id="queue-empty" class="muted">No images in the queue yet.</p>
+    <ul id="queue-list" class="queue-list"></ul>
+    <div class="btn-row">
+      <button type="button" id="btn-analyse" class="btn" disabled>Analyse all</button>
+      <button type="button" id="btn-pause" class="btn" disabled>Pause</button>
+      <button type="button" id="btn-resume" class="btn" disabled>Resume</button>
+      <button type="button" id="btn-stop" class="btn" disabled>Stop</button>
+      <button type="button" id="btn-restart" class="btn" disabled>Restart</button>
+      <button type="button" id="btn-clear-queue" class="btn" disabled>Clear queue</button>
+    </div>
+
+    <h3>Settings</h3>
+    <div class="settings-grid">
+      <label>
+        Healthy keyword
+        <input id="setting-healthy" type="text" />
+        <span class="small muted">Stage 2 labels containing this word count as healthy.</span>
+      </label>
+      <label>
+        Low-confidence warning below
+        <input id="setting-low-conf" type="number" min="0" max="1" step="0.05" />
+        <span class="small muted">Results below this confidence show a warning.</span>
+      </label>
+      <label class="checkbox-label">
+        <input id="setting-auto" type="checkbox" />
+        Analyse new uploads automatically
+      </label>
+    </div>
+
+    <h2 id="results-heading">Results</h2>
+    <p id="results-note" class="notice" hidden></p>
+    <p><button type="button" id="btn-back-results" class="btn" hidden>Back to current results</button></p>
+    <p id="results-empty" class="muted">No results yet. Add images and analyse them, or view a saved run below.</p>
+    <div id="results-grid" class="results-grid"></div>
+
+    <h2>Charts</h2>
+    <p id="charts-empty" class="muted">Charts appear here once images have been analysed.</p>
+    <div class="charts-grid">
+      <figure>
+        <figcaption>Outcomes in this batch</figcaption>
+        <canvas id="chart-outcomes" width="300" height="220" aria-label="Outcomes chart" role="img"></canvas>
+      </figure>
+      <figure>
+        <figcaption>Stage 2 labels in this batch</figcaption>
+        <canvas id="chart-disease" width="300" height="220" aria-label="Stage 2 labels chart" role="img"></canvas>
+      </figure>
+      <figure>
+        <figcaption>Average confidence</figcaption>
+        <canvas id="chart-confidence" width="300" height="220" aria-label="Average confidence chart" role="img"></canvas>
+      </figure>
+    </div>
+
+    <h2>Exports and history</h2>
+    <div class="btn-row">
+      <button type="button" id="btn-export-csv" class="btn" disabled>Export CSV</button>
+      <button type="button" id="btn-export-json" class="btn" disabled>Export JSON</button>
+      <button type="button" id="btn-export-xlsx" class="btn" disabled>Export spreadsheet</button>
+      <button type="button" id="btn-export-pdf" class="btn" disabled>Export PDF</button>
+      <button type="button" id="btn-save-run" class="btn" disabled>Save this run</button>
+    </div>
+    <p class="small muted">Exports carry the model version and export time. Saved runs stay on this device, in this browser.</p>
+    <h3>Saved runs</h3>
+    <p id="history-empty" class="muted">No saved runs yet.</p>
+    <ul id="history-list" class="history-list"></ul>
+    <p><button type="button" id="btn-clear-history" class="btn">Delete all saved runs</button></p>
+
+    <div id="toasts" class="toasts" aria-live="polite"></div>
+
+    <h2>Pipeline</h2>
+    <figure>
+      <img src={href("/images/art/pipeline.svg")} alt="Pipeline diagram: photo, prepare, Stage 1 gate, Stage 2 health, result" loading="lazy" />
+      <figcaption>How a photo moves through the two stages. Stage 2 runs only when Stage 1 passes.</figcaption>
+    </figure>
+    <ol class="steps">
+      <li>
+        <strong>Photo in.</strong> A close, well-lit photo of bees or a hive frame. The photo
+        stays on the device.
+      </li>
+      <li>
+        <strong>Prepare.</strong> Centre-crop to a square and resize to 224 by 224 pixels, then
+        scale pixel values to the range minus 1 to 1. This preprocessing comes from the working
+        inference code.
+      </li>
+      <li>
+        <strong>Stage 1: gate.</strong> The first model labels the photo. Only a label starting
+        with "0" passes. Anything else stops here, and Stage 2 is marked skipped.
+      </li>
+      <li>
+        <strong>Stage 2: health.</strong> For photos that pass, the second model assigns one of
+        four labels, with a confidence value and per-class probabilities.
+      </li>
+      <li>
+        <strong>Result.</strong> Stage 1 and Stage 2 are shown separately, with a low-confidence
+        warning where needed. Results are decision support only.
+      </li>
+    </ol>
+
+    <h2>Real class names</h2>
+    <p>These are the exact labels from the two supplied labels files. Display names drop the leading number; exports keep the raw label.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Stage</th><th>Label (exact)</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td>Stage 1</td><td><code>0 Honey Bee or Beehive</code></td><td>Valid. Passes to Stage 2.</td></tr>
+          <tr><td>Stage 1</td><td><code>1 Not Honey Bee or Not Beehive</code></td><td>Invalid. Stage 2 is skipped.</td></tr>
+          <tr><td>Stage 2</td><td><code>0 Healthy Honey Bee or Healthy Beehive</code></td><td>No visible sign of the three diseases in this photo.</td></tr>
+          <tr><td>Stage 2</td><td><code>1 Deformed Wing Virus (DWV)</code></td><td>Visible sign of DWV.</td></tr>
+          <tr><td>Stage 2</td><td><code>2 Varroa Mite Infestation</code></td><td>Visible sign of Varroa mites.</td></tr>
+          <tr><td>Stage 2</td><td><code>3 Chalkbrood Disease</code></td><td>Visible sign of chalkbrood.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted">
+      Note: beehive images pass Stage 1 by design, and Stage 2 then assigns them a bee-health
+      label. That behaviour comes from the labels files and is kept as supplied.
+    </p>
+    <p>{SITE.privacyNote}</p>
+
+    <h2>Parity test — the gate before launch</h2>
+    <p>
+      Before any browser demo ships, the converted browser models must agree with the original
+      models on at least 30 test images, under the acceptance rules in the master plan
+      (§7.4). If they do not agree, the demo switches to a Python API instead of changing the
+      models. The models are never retrained, modified, or replaced. Conversion and parity scripts,
+      with exact run instructions, are in the repository's <code>ml/</code> folder. An unlabelled
+      parity image set has been collected; a labelled set for accuracy measurement is still
+      needed from the team or experts.
+    </p>
+    <p>
+      <StatusBadge kind="review" label="Parity image set collected (unlabelled)" />
+      <StatusBadge kind="pending" label="Conversion pending" />
+      <StatusBadge kind="pending" label="Parity report pending" />
+    </p>
+
+    <Disclaimer />
+
+    <h2>Next steps</h2>
+    <ul>
+      <li><a href={href("/models-data")}>Model card: inputs, limits, and data</a></li>
+      <li><a href={href("/roadmap")}>Roadmap: what comes after the photo check</a></li>
+      <li><a href={href("/learn")}>Learn: what the labels mean</a></li>
+    </ul>
+  </div>
+
+  <script>
+    import { initDetector } from "../lib/detector/ui";
+    import { modelHref } from "../site.config";
+    const app = document.getElementById("detector-app");
+    initDetector({
+      stage1ManifestUrl: app?.dataset.stage1Manifest ?? modelHref("/stage1/manifest.json"),
+      stage1ModelUrl: app?.dataset.stage1Model ?? modelHref("/stage1/model.json"),
+      stage2ManifestUrl: app?.dataset.stage2Manifest ?? modelHref("/stage2/manifest.json"),
+      stage2ModelUrl: app?.dataset.stage2Model ?? modelHref("/stage2/model.json"),
+    });
+  </script>
+</BaseLayout>

@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../components/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import PlaceholderBox from "../components/PlaceholderBox.astro";
+---
+
+<BaseLayout title="Imprint" description="Imprint placeholders. Operator details must be supplied before launch.">
+  <PageHeader
+    title="Imprint"
+    intro="Operator details for this site. All details are placeholders until the team supplies and confirms them. This page blocks production launch until completed."
+  />
+  <div class="container">
+    <div class="notice">
+      <p>
+        <strong>Launch-blocking.</strong> A public site aimed at international visitors, including
+        Germany, needs a complete and correct imprint. Do not launch with placeholders here. The
+        team should confirm with the university whether a university imprint applies.
+      </p>
+    </div>
+    <PlaceholderBox text="operator / responsible person or organisation name" />
+    <PlaceholderBox text="postal address" />
+    <PlaceholderBox text="email address" />
+    <PlaceholderBox text="telephone number, if required" />
+    <PlaceholderBox text="responsible person for content, if required" />
+    <PlaceholderBox text="any registration, VAT, or professional details, if applicable" />
+  </div>
+</BaseLayout>

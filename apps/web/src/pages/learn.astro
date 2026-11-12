@@ -1,0 +1,66 @@
+---
+import BaseLayout from "../components/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import StatusBadge from "../components/StatusBadge.astro";
+import Disclaimer from "../components/Disclaimer.astro";
+import { diseases, photoTips } from "../data/learn";
+import { href } from "../site.config";
+---
+
+<BaseLayout
+  title="Learn"
+  description="What the detector labels mean, in plain language, pending expert review. No treatment advice."
+>
+  <PageHeader
+    title="Learn"
+    intro="Plain-language notes on what the detector labels mean. This page is pending expert review and gives no treatment or prevention advice."
+  >
+    <p><StatusBadge kind="review" /></p>
+  </PageHeader>
+  <div class="container">
+    <div class="notice notice-warn">
+      <p>
+        <strong>Pending expert review.</strong> An apiculture expert must review this page before
+        it is treated as guidance. If anything here conflicts with advice from a qualified apiary
+        inspector or lab, follow the inspector or lab. Some bee diseases must be reported to
+        authorities; check local rules.
+      </p>
+    </div>
+
+    <h2>The four Stage 2 labels</h2>
+    {diseases.map((disease) => (
+      <article class="card" style="margin-bottom:1rem;">
+        <h3 style="margin-top:0;">{disease.label}</h3>
+        <p><StatusBadge kind="review" /></p>
+        {disease.image && (
+          <figure>
+            <img src={href(`/${disease.image.file}`)} alt={disease.image.alt} loading="lazy" />
+            <figcaption>
+              {disease.image.caption} Credits: <a href={href("/credits")}>Image credits</a>.
+            </figcaption>
+          </figure>
+        )}
+        <ul>
+          {disease.reportNotes.map((note) => <li>{note}</li>)}
+        </ul>
+        <p class="small muted">Source: {disease.source}</p>
+      </article>
+    ))}
+
+    <h2>What a photo cannot tell you</h2>
+    <ul>
+      <li>Whether a colony is truly disease-free. A photo shows only what is visible in that frame.</li>
+      <li>Early disease with no visible sign, internal disease, or queen problems.</li>
+      <li>Anything about Nosema, foulbrood, or other conditions outside the four labels.</li>
+      <li>What treatment, if any, is right. That needs an inspector or lab, and local rules.</li>
+    </ul>
+
+    <h2>Taking a usable photo</h2>
+    <ul>
+      {photoTips.map((tip) => <li>{tip}</li>)}
+    </ul>
+    <p class="small muted">Photo guidance follows the report's input requirements (Table 4.1).</p>
+
+    <Disclaimer />
+  </div>
+</BaseLayout>

@@ -1,0 +1,20 @@
+---
+import BaseLayout from "../components/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { faqs } from "../data/faq";
+---
+
+<BaseLayout title="FAQ" description="Frequently asked questions about the detector, accuracy, privacy, and the team.">
+  <PageHeader
+    title="Frequently asked questions"
+    intro="Short, honest answers. Where the answer is 'not yet known', the page says so."
+  />
+  <div class="container">
+    {faqs.map((item) => (
+      <article style="margin-bottom:1.4rem;">
+        <h2 style="font-size:1.25rem;margin-bottom:0.3rem;">{item.question}</h2>
+        <p>{item.answer}</p>
+      </article>
+    ))}
+  </div>
+</BaseLayout>

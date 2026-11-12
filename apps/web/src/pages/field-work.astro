@@ -1,0 +1,70 @@
+---
+import BaseLayout from "../components/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import PlaceholderBox from "../components/PlaceholderBox.astro";
+import StatusBadge from "../components/StatusBadge.astro";
+import { SITE, href } from "../site.config";
+---
+
+<BaseLayout
+  title="Field work"
+  description="Workshops and site visits at HBRI and NARC, Islamabad, as stated by the team. Photos to be added."
+>
+  <PageHeader
+    title="Field work"
+    intro="Workshops and site visits at the Honeybee Research Institute (HBRI) and the National Agricultural Research Centre (NARC), Islamabad — as stated by the team. Photos to be added."
+  >
+    <p><StatusBadge kind="pending" label="Photos to be added" /></p>
+  </PageHeader>
+  <div class="container">
+    <h2>What the team states</h2>
+    <p>
+      The team states that workshops and site visits took place at HBRI and NARC, Islamabad. Dates,
+      photos, and written confirmations have not yet been supplied. Until they are, this page uses
+      cautious wording only: workshops and site visits. It does not claim that the system was tested
+      in the field, that experts endorsed it, or that any result was confirmed there.
+    </p>
+    <p>
+      Nothing is published here about what experts said or what was checked during those visits,
+      because the team has not supplied that material.
+    </p>
+    <PlaceholderBox text="visit dates, photos with permissions, and written confirmations from HBRI and NARC" />
+
+    <h2>The institutions</h2>
+    <p>
+      <strong>Honeybee Research Institute (HBRI)</strong> is an institute of the
+      <strong>National Agricultural Research Centre (NARC)</strong>, Islamabad, under the Pakistan
+      Agricultural Research Council (PARC). These official names and the "Centre" spelling follow
+      PARC's own publications. The abbreviation HBRC belongs to a different centre abroad and is
+      not used here.
+    </p>
+    <p>
+      Source (PARC):
+      <a href={SITE.links.parcHbriNews} rel="noopener">PARC news: Bee Hive Products Laboratory at HBRI, NARC</a> ·
+      PARC website: <a href={SITE.links.parc} rel="noopener">parc.gov.pk</a>
+    </p>
+
+    <h2>What the project report says</h2>
+    <p>
+      The project report does not mention HBRI, NARC, Islamabad, workshops, or site visits. Its own
+      limits section states that testing stayed mainly in laboratory and controlled settings, and
+      that performance in working apiaries over full seasons was largely untested (§6.3.3, §6.5.1).
+      The small expert checks described in the report involved a small number of beekeepers and a
+      small set of images from one unnamed local operation (§11.8). No names, dates, or places are
+      given for those checks, and none are published here.
+    </p>
+    <p>
+      The workshops and site visits described above are therefore presented as team statements from
+      outside the report, not as report findings. If evidence shows they happened after the report
+      was written, dates on the <a href={href("/journey")}>Journey</a> page will say so.
+    </p>
+
+    <h2>Photos and permissions</h2>
+    <PlaceholderBox text="field photos and videos, with consent from every person pictured and permission from each institution" />
+    <p>
+      No field photos are shown. No institute name, logo, or statement is used as an endorsement.
+      Institutional permission is required before any such use. See
+      <a href={href("/research")}>Research</a> for what the report itself supports.
+    </p>
+  </div>
+</BaseLayout>
