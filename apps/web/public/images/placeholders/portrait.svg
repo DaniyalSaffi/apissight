@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="320" viewBox="0 0 320 320" role="img" aria-label="Photo placeholder: portrait to be supplied">
+  <rect width="320" height="320" fill="#FFF3D6" rx="16"/>
+  <polygon points="160,28 268,90 268,214 160,276 52,214 52,90" fill="none" stroke="#F5A524" stroke-width="3"/>
+  <circle cx="160" cy="138" r="42" fill="#F9C96B" stroke="#B97A0F" stroke-width="3"/>
+  <path d="M96 236 Q160 178 224 236" fill="#F9C96B" stroke="#B97A0F" stroke-width="3"/>
+  <text x="160" y="300" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" fill="#6B5A3E">Photo to be supplied</text>
+</svg>
