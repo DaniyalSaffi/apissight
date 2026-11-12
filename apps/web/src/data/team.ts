@@ -2,8 +2,9 @@
  * Team data. Names and roles follow the FYP report plus owner decisions of
  * 2026-11-12. Inclusion of every person named here is confirmed by the
  * project lead, 12 Nov 2026 (a statement by the project lead; written
- * confirmations can be added later). Student IDs are never shown. No bios,
- * photos, or quotes are shown; none were supplied.
+ * confirmations can be added later). Student IDs are never shown. One-line
+ * factual bios from the report are shown; full bios, photos, and quotes
+ * were not supplied.
  * Both co-supervisors are listed: Shehzad Arif and Fritz Böhmler
  * (industry partner). Role order follows the project lead's decision:
  * supervisor, co-supervisors, then the two students.
@@ -32,7 +33,7 @@ export const team: TeamMember[] = [
     source: "FYP report, Declaration (p. i) and Acknowledgments (p. ii)",
     consent: "confirmed",
     consentNote: CONFIRMED_NOTE,
-    bio: null,
+    bio: "Supervisor of the final-year project, Department of Computer Science, Namal University.",
     photo: null,
     links: { email: null, github: null, linkedin: null },
   },
@@ -42,7 +43,7 @@ export const team: TeamMember[] = [
     source: "FYP report, Acknowledgments (p. ii)",
     consent: "confirmed",
     consentNote: CONFIRMED_NOTE,
-    bio: null,
+    bio: "Co-supervisor of the final-year project, Department of Computer Science, Namal University.",
     photo: null,
     links: { email: null, github: null, linkedin: null },
   },
@@ -53,7 +54,7 @@ export const team: TeamMember[] = [
       "Project poster (co-supervisor line) and owner decision of 12 Nov 2026. The report names him as SAWiE CEO (§1.8).",
     consent: "confirmed",
     consentNote: CONFIRMED_NOTE,
-    bio: null,
+    bio: "Chief Executive Officer and Managing Director of SAWiE Ecosystem, the project's primary industrial partner; industry co-supervisor of the project.",
     photo: null,
     links: { email: null, github: null, linkedin: null },
   },
@@ -63,7 +64,7 @@ export const team: TeamMember[] = [
     source: "FYP report, title page and Declaration (p. i). Full name form confirmed by the owner on 12 Nov 2026; short form M. Daniyal Saffi is used in credits.",
     consent: "confirmed",
     consentNote: "Project lead. Publication of name and contact details confirmed by the person.",
-    bio: null,
+    bio: "BSc Computer Science student (class of 2021–2025), Department of Computer Science, Namal University; co-author of the project report and project lead.",
     photo: null,
     links: {
       email: "daniyals0316@gmail.com",
@@ -77,7 +78,7 @@ export const team: TeamMember[] = [
     source: "FYP report, title page and Declaration (p. i)",
     consent: "confirmed",
     consentNote: CONFIRMED_NOTE,
-    bio: null,
+    bio: "BSc Computer Science student (class of 2021–2025), Department of Computer Science, Namal University; co-author of the project report and project partner.",
     photo: null,
     links: { email: null, github: null, linkedin: null },
   },
