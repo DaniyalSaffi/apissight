@@ -46,6 +46,7 @@ export const ur = {
     langNav: "زبان",
     search: "تلاش",
     searchLabel: "سائٹ تلاش کریں",
+    quickSearch: "فوری تلاش",
   },
   releaseBanner: "ابتدائی ریلیز: کچھ حصے ابھی مکمل ہو رہے ہیں۔",
   translationNote:

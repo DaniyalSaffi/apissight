@@ -46,6 +46,7 @@ export const de = {
     langNav: "Sprache",
     search: "Suchen",
     searchLabel: "Website durchsuchen",
+    quickSearch: "Schnellsuche",
   },
   releaseBanner: "Frühe Version: Einige Abschnitte werden noch fertiggestellt.",
   translationNote:

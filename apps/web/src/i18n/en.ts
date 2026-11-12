@@ -41,6 +41,7 @@ export const en = {
     langNav: "Language",
     search: "Search",
     searchLabel: "Search the site",
+    quickSearch: "Quick search",
   },
   releaseBanner: "Early release: some sections are still being completed.",
   translationNote: "",
