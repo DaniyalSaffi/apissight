@@ -1,0 +1,57 @@
+---
+import BaseLayout from "../components/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import PlaceholderBox from "../components/PlaceholderBox.astro";
+import { team } from "../data/team";
+import { href } from "../site.config";
+---
+
+<BaseLayout
+  title="Team"
+  description="Project team, supervisor, and both co-supervisors, with consent status shown for each person."
+>
+  <PageHeader
+    title="Team"
+    intro="Names and roles from the final-year project report and the project lead's decisions. Consent status is shown for each person. No student IDs are shown, ever."
+  />
+  <div class="container">
+    <div class="notice">
+      <p>
+        <strong>Two co-supervisors.</strong> Shehzad Arif (as named in the report) and
+        Fritz Böhmler (industry partner, as named on the project poster) are both listed as
+        co-supervisors, per the project lead's decision of 12 November 2026. Inclusion of every
+        person named on this page is confirmed by the project lead, 12 Nov 2026. Written
+        confirmations can be added later.
+      </p>
+    </div>
+    <div class="grid">
+      {team.map((member) => (
+        <article class="card">
+          <img src={href("/images/placeholders/portrait.svg")} alt="" width="120" loading="lazy" />
+          <h3 style="margin-top:0;">{member.name}</h3>
+          <p><strong>{member.role}</strong></p>
+          <p class="small">{member.consentNote}</p>
+          <p class="small muted">Source: {member.source}</p>
+          {(member.links.email || member.links.linkedin || member.links.github) && (
+            <p>
+              {member.links.email && <><a href={`mailto:${member.links.email}`}>Email</a> </>}
+              {member.links.linkedin && <><a href={member.links.linkedin} rel="noopener">LinkedIn</a> </>}
+              {member.links.github && <><a href={member.links.github} rel="noopener">GitHub</a></>}
+            </p>
+          )}
+          <PlaceholderBox text={`bio and photo for ${member.name}, with consent`} />
+        </article>
+      ))}
+    </div>
+    <h2>Others named in the report</h2>
+    <p>
+      The report's acknowledgments also name the Head of Department and two faculty members. They
+      are not listed as team members here, and their names are not published on this page, until
+      website use is confirmed with each person.
+    </p>
+    <p>
+      The industry partner and its leadership appear on the
+      <a href={href("/partnership")}>Partnership</a> page.
+    </p>
+  </div>
+</BaseLayout>

@@ -1,0 +1,89 @@
+---
+import BaseLayout from "../components/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import PlaceholderBox from "../components/PlaceholderBox.astro";
+import { SITE, href } from "../site.config";
+---
+
+<BaseLayout
+  title="Partnership"
+  description="SAWiE Ecosystem, the industrial partner, and Namal University."
+>
+  <PageHeader
+    title="Partnership"
+    intro="An industry partnership and a university project. What each side did, and what public sources confirm."
+  />
+  <div class="container">
+    <h2>SAWiE Ecosystem — industrial partner</h2>
+    <p>
+      The project report names SAWiE Ecosystem as the project's primary industrial partner
+      (§1.8). The collaboration included mentorship, technical guidance, and industry insight; an
+      executive visit to Namal University; and regular video calls.
+    </p>
+    <p>
+      Description, paraphrased from public sources: SAWiE
+      (Sustainable Agriculture, Water &amp; Intelligent Ecosystem) offers data-driven farm advisory
+      services using satellite and sensor data, machine learning, and mapping, aimed mainly at
+      smallholder farmers. Its own site describes work with farmers in Pakistan. Use of the name,
+      this description, and the website link is confirmed by the project lead, 12 Nov 2026.
+    </p>
+    <p>
+      Official website: <a href={SITE.links.sawieWebsite} rel="noopener">sawie.net</a> ·
+      About page: <a href={SITE.links.sawieAbout} rel="noopener">sawie.net/about</a>
+    </p>
+    <PlaceholderBox text="logo permission (not approved) — no logo, photo, or quote is shown" />
+
+    <h2>Fritz Böhmler</h2>
+    <p>
+      <strong>Fritz Böhmler — {SITE.person.boehmlerTitle}, SAWiE.</strong> The project report
+      calls him CEO (§1.8). SAWiE's own announcement of his appointment as Chief Executive Officer
+      also signs him as Managing Director, and Namal University's newsletter uses the combined
+      title "CEO and Managing Director of SAWiE, Germany". This page uses the combined title and
+      shows both sources. Inclusion and role wording are confirmed by the project lead,
+      12 Nov 2026.
+    </p>
+    <p>
+      Mr Böhmler is also listed as co-supervisor (industry partner) on the
+      <a href={href("/team")}>Team</a> page, per the project lead's decision of 12 November 2026.
+    </p>
+    <p>
+      SAWiE announcement (link only):
+      <a href={SITE.links.sawieCeoAnnouncement} rel="noopener">SAWiE welcomes Mr Fritz Böhmler as new CEO</a>
+    </p>
+    <div class="notice">
+      <p>
+        <strong>On "Germany".</strong> Public sources link Mr Böhmler personally with Germany, and
+        Namal University's newsletter labels the engagement "SAWiE, Germany". SAWiE's own site
+        describes Pakistan-based operations, and no Germany office was found on its site. This page
+        therefore does not call SAWiE a German company. It states the Germany link only as sourced
+        above.
+      </p>
+    </div>
+    <p>No photo, logo, or quote from Mr Böhmler is shown. No quote from him exists in the project report.</p>
+
+    <h2>Namal University</h2>
+    <p>
+      The project was completed at the Department of Computer Science, Namal University,
+      30-KM Talagang Road, Mianwali, Pakistan (report title page). The university's Office of
+      Research, Innovation, and Commercialization (ORIC) organised AgriFusion 2025. Use of the
+      university name on this public site is confirmed by the project lead, 12 Nov 2026. Logo use
+      is not approved.
+    </p>
+    <p>
+      University website:
+      <a href={SITE.links.namalUniversity} rel="noopener">namal.edu.pk</a>
+    </p>
+    <PlaceholderBox text="logo permission (not approved), and ownership/licensing decision for code, models, and data" />
+
+    <h2>What the partnership did — and did not do</h2>
+    <ul>
+      <li>Did: mentorship, technical guidance, industry insight, a visit, and video collaboration (report §1.8).</li>
+      <li>Did not, on the evidence in the report: supply a published expert statement about this project or endorse any result figure. No such statement is quoted here.</li>
+      <li>General mentor feedback in the report (Chapter 10) is unattributed and undated. It is not turned into testimonials or quotes anywhere on this site.</li>
+    </ul>
+    <p>
+      <a href={href("/team")}>Team and supervisors</a> ·
+      <a href={href("/field-work")}>Field work</a>
+    </p>
+  </div>
+</BaseLayout>

@@ -1,0 +1,139 @@
+---
+import BaseLayout from "../components/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import PlaceholderBox from "../components/PlaceholderBox.astro";
+import StatusBadge from "../components/StatusBadge.astro";
+import { reportedResults } from "../data/reportedResults";
+import { href } from "../site.config";
+
+const headlineRows = reportedResults.flatMap((group) =>
+  group.rows.filter((row) => row.headline),
+);
+const detailGroups = reportedResults
+  .map((group) => ({ ...group, rows: group.rows.filter((row) => !row.headline) }))
+  .filter((group) => group.rows.length > 0);
+---
+
+<BaseLayout
+  title="Research"
+  description="Summary of the final-year project report and the status of the research paper. No report PDF and no paper text are published here."
+>
+  <PageHeader
+    title="Research"
+    intro="A summary of the final-year project report. The report PDF is not published here. The research paper is under review, and nothing from it is published here."
+  />
+  <div class="container">
+    <h2>Final-year project report</h2>
+    <p>
+      <strong>AI-Driven Honeybee and Beehive Health Monitoring System for Disease Detection and
+      Population Analysis.</strong> Final-year project report, BSc Computer Science, Department of
+      Computer Science, Namal University, cohort 2021–2025. Thirteen chapters plus references.
+    </p>
+    <p>What the report covers, in brief:</p>
+    <ul>
+      <li><strong>Problem and objectives</strong> (Chapter 1): colony decline, limits of manual inspection, and targets for image-based monitoring.</li>
+      <li><strong>Literature</strong> (Chapter 2): prior work on bee detection, disease imaging, and counting. Figures in this chapter belong to other researchers, not to this project.</li>
+      <li><strong>Method</strong> (Chapter 4): three-part framework, preprocessing, two MobileNet models, and a counting approach.</li>
+      <li><strong>Results and discussion</strong> (Chapters 5–6): several metric sets that do not agree with each other, plus limits that qualify every result. Reported figures are published with sources in the section below.</li>
+      <li><strong>System design, data, and testing</strong> (Chapters 7–11): prototype design, data sources, and small-scale testing including a small expert check.</li>
+      <li><strong>Conclusions and future work</strong> (Chapters 12–13): summary and planned extensions, including a mobile app and pilot programmes.</li>
+    </ul>
+    <p>
+      No report diagrams or images are republished here. The report's figures are diagrams, one
+      bee-counting image, and two interface screenshots. Rights and permissions for reuse have
+      not been confirmed.
+    </p>
+    <PlaceholderBox text="decision on publishing a redacted report copy (student IDs removed) with co-author and university permission — summary only for now" />
+
+    <h2>Reported project results (from the final report and poster)</h2>
+    <p>
+      Reported by the project team. Independent measurement of the deployed demo models is pending.
+    </p>
+    <p>
+      The figures below describe the project as reported in the final-year project report and on
+      the project poster. Each figure carries its exact source and what it measures. The report's
+      chapters disagree with each other on several measures, so the sets are shown separately and
+      are never merged into one headline figure. None of these figures describes the two demo
+      models on the <a href={href("/models-data")}>Models &amp; data</a> page: no report metric is
+      tied to the supplied model files by name, and the demo models have not been measured yet.
+    </p>
+    <div class="notice">
+      <p>
+        <strong>Withheld values.</strong> Three values from the report and poster are not shown
+        here, because they also appear in the report's literature review as other researchers'
+        results. They stay withheld until the project lead confirms in writing that each was
+        independently measured in this project and on which test set. No processing-time figures
+        are published, and no counting-model version number is shown.
+      </p>
+    </div>
+    <h3>Headline: the most conservative independently tested figures</h3>
+    <p>
+      These figures come from Chapter 11 prototype testing: new images, cross-validation, and
+      checks against expert assessment. Each carries its exact source and what it measures.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Figure</th><th>Value</th><th>What it measures</th><th>Source</th></tr>
+        </thead>
+        <tbody>
+          {headlineRows.map((row) => (
+            <tr>
+              <td>{row.figure}</td>
+              <td><strong>{row.value}</strong></td>
+              <td>{row.measures}</td>
+              <td>{row.source}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <h3>All other reported figures, by chapter</h3>
+    <p class="small muted">
+      The remaining figures are grouped by chapter. Open a section to see its table.
+    </p>
+    {detailGroups.map((group) => (
+      <details>
+        <summary>{group.group}</summary>
+        {group.note && <p class="small muted">{group.note}</p>}
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Figure</th><th>Value</th><th>What it measures</th><th>Source</th></tr>
+            </thead>
+            <tbody>
+              {group.rows.map((row) => (
+                <tr>
+                  <td>{row.figure}</td>
+                  <td><strong>{row.value}</strong></td>
+                  <td>{row.measures}</td>
+                  <td>{row.source}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </details>
+    ))}
+
+    <h2>Research paper</h2>
+    <p><StatusBadge kind="pending" label="Under review" /></p>
+    <p>
+      Status only: <strong>under review</strong>. No title, abstract, figures, or unpublished
+      results are shown, and no journal is named, until the team supplies the details and confirms
+      the journal's sharing policy.
+    </p>
+    <PlaceholderBox text="paper title, journal, submission date, and journal preprint/sharing policy, as confirmed by the team" />
+
+    <h2>How this site uses the report</h2>
+    <ul>
+      <li>Facts are tied to report sections. Targets are labelled as targets. Literature figures are never presented as project results.</li>
+      <li>Where report chapters disagree, the site says so instead of picking one number silently. See <a href={href("/models-data")}>Models &amp; data</a>.</li>
+      <li>Claims from outside the report (field work, awards, paper status) are labelled as team statements, with certificates and photos still to be added.</li>
+    </ul>
+    <p>
+      <a href={href("/project")}>Project summary</a> ·
+      <a href={href("/team")}>Team and supervisors</a>
+    </p>
+  </div>
+</BaseLayout>

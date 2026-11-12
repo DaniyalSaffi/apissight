@@ -1,0 +1,170 @@
+---
+import BaseLayout from "../components/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import PlaceholderBox from "../components/PlaceholderBox.astro";
+import Disclaimer from "../components/Disclaimer.astro";
+import { href } from "../site.config";
+---
+
+<BaseLayout
+  title="Project"
+  description="The final-year project behind this site: problem, method, models, data, and limits, tied to the project report."
+>
+  <PageHeader
+    title="The project"
+    intro="AI-Driven Honeybee and Beehive Health Monitoring System for Disease Detection and Population Analysis. A final-year project, BSc Computer Science, Department of Computer Science, Namal University, cohort 2021–2025."
+  />
+  <div class="container">
+    <p class="muted small">
+      Every fact on this page comes from the final-year project report, with the report section
+      noted. Where the report is silent, the page says so. Reported result figures are published
+      with sources on the <a href={href("/research")}>Research</a> page.
+    </p>
+
+    <h2>Problem</h2>
+    <figure>
+      <img src={href("/images/stock/beehive_apiary.jpg")} alt="Beehives in an apiary" loading="lazy" />
+      <figcaption>
+        Illustrative image. Beehives in an apiary. Credits:
+        <a href={href("/credits")}>Image credits</a>.
+      </figcaption>
+    </figure>
+    <p>
+      Honeybee decline threatens pollination and food security (Abstract; §1.1). The report argues
+      that manual inspection is disruptive to colonies, slow, late in spotting disease, and hard to
+      scale across many hives (§1.3). Inspectors also differ in experience, so results vary.
+    </p>
+    <PlaceholderBox text="cited statistics for pollination value, colony losses, and crop dependence, with sources" />
+
+    <h2>Objectives</h2>
+    <p>The report sets out objectives, not achieved results (§1.4):</p>
+    <ul>
+      <li>Non-invasive, image-based monitoring of bee health and population.</li>
+      <li>Early detection of Varroa mite infestation, Deformed Wing Virus (DWV), and Chalkbrood Disease.</li>
+      <li>A simple interface usable on standard mobile devices, with no hardware installed in the hive.</li>
+      <li>Fast, low-cost checks that a beekeeper can run in the field.</li>
+    </ul>
+    <p>
+      The report also lists numeric targets for detection quality, counting error, false alarms,
+      availability, and daily volume (§1.4, Table 1.1). Those targets are not published as numbers
+      on this site, because targets are not results. Reported results are published with sources on
+      the <a href={href("/research")}>Research</a> page, and the demo models themselves are
+      unmeasured. See <a href={href("/models-data")}>Models &amp; data</a>.
+    </p>
+
+    <h2>Method</h2>
+    <p>The report describes a three-part framework (§4.1):</p>
+    <ol>
+      <li><strong>Primary classification</strong> — is the image a bee or beehive image?</li>
+      <li><strong>Health assessment</strong> — which of the three diseases, if any, is visible?</li>
+      <li><strong>Population analysis</strong> — how many bees are in the image?</li>
+    </ol>
+    <p>
+      Image preparation in the report includes quality checks, enhancement, and standardisation to
+      fixed input sizes (§4.3). Input guidance in the report covers common photo formats, a minimum
+      size, and capture in natural daylight at close range (Table 4.1). The demo's own
+      preprocessing follows the working inference code, not the report's training description; the
+      two differ, and the parity test is the check that settles the demo behaviour. See
+      <a href={href("/models-data")}>Models &amp; data</a>.
+    </p>
+    <p>
+      The report's pipeline runs identification, disease checking, and counting as parallel paths
+      and combines the results (§4.7). The website detector does not copy that flow: it uses a
+      strict two-stage gate from the inference code, where Stage 2 runs only after Stage 1 passes.
+      See <a href={href("/detector")}>Detector</a>.
+    </p>
+
+    <h2>Models in the report — and in the demo</h2>
+    <p>Keep these apart. The report describes more than the demo contains:</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Model / approach</th><th>Role in the report</th><th>In the website demo?</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>MobileNet (binary)</td>
+            <td>Bee vs non-bee classification (§4.4).</td>
+            <td>Yes — Stage 1 of the two supplied models.</td>
+          </tr>
+          <tr>
+            <td>MobileNet (four classes)</td>
+            <td>Health classification: Healthy, Varroa, Deformed Wing Disease, Chalkbrood (§4.5).</td>
+            <td>Yes — Stage 2 of the two supplied models. Labels as in the labels files.</td>
+          </tr>
+          <tr>
+            <td>YOLO-based bee counting (research)</td>
+            <td>Population counting from hive images (§4.6).</td>
+            <td>No. No counting model was supplied. Planned work only; see Roadmap.</td>
+          </tr>
+          <tr>
+            <td>ResNet</td>
+            <td>Literature review and one baseline comparison row (Table 5.4).</td>
+            <td>No. Baseline and literature only.</td>
+          </tr>
+          <tr>
+            <td>CNN (general)</td>
+            <td>Mainly literature review; one behaviour-monitoring path is mentioned.</td>
+            <td>No. Literature only.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted">
+      No counting-model version number is shown anywhere on this site, per the project lead's
+      decision. The counting work is described only as YOLO-based bee counting (research).
+    </p>
+
+    <h2>Data</h2>
+    <p>
+      The report describes three data sources (§9.1): public datasets, web-collected material, and
+      field photos and videos from apiaries. No dataset names, links, or licences are given, and no
+      apiary is named. Dataset sizes are stated per model in Chapters 4 and 11 and do not reconcile
+      into one total; they are described per model on the
+      <a href={href("/models-data")}>Models &amp; data</a> page, with section citations, and are not
+      presented as verified training data for the two supplied model files.
+    </p>
+    <p>
+      Training and test images are not republished on this site. Licences and consent for the
+      collected images are unknown. See <a href={href("/models-data")}>Models &amp; data</a>.
+    </p>
+
+    <h2>Prototype described in the report</h2>
+    <p>
+      The report describes both a cloud-style design (Chapter 7) and a localhost prototype with no
+      cloud services (Chapter 11). This website is a new static build and is neither of those. It
+      reuses the report's facts and the two supplied models only. A mobile app is described in the
+      report's future work (Chapter 13) as planned; no app is linked or offered here.
+    </p>
+
+    <h2>Limits, in the report's own terms</h2>
+    <ul>
+      <li>
+        Visual-only checking misses early or internal disease with no visible sign (§6.3.1).
+      </li>
+      <li>
+        Testing stayed mainly in laboratory and controlled settings. Performance in working apiaries
+        over full seasons was largely untested (§6.3.3, §6.5.1).
+      </li>
+      <li>
+        The report's final testing verdict is prototype: suitable for demonstration and limited
+        trials with beekeepers who understand its prototype nature (§11.10.3).
+      </li>
+      <li>
+        Small expert checks in the report gave mixed agreement, weakest on subtle and early-stage
+        cases (§11.8). The reported figures are published with sources on the
+        <a href={href("/research")}>Research</a> page.
+      </li>
+    </ul>
+
+    <PlaceholderBox text="journey video and project photos, with rights and permissions confirmed" />
+
+    <Disclaimer />
+
+    <h2>Sources</h2>
+    <ul>
+      <li>Final-year project report (129 pages), Chapters 1, 4, 6, 7, 9, 11, and 13. The report PDF itself is not published on this site.</li>
+      <li><a href={href("/research")}>Research summary</a> and <a href={href("/models-data")}>model card</a>.</li>
+    </ul>
+  </div>
+</BaseLayout>

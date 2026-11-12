@@ -1,0 +1,49 @@
+---
+import BaseLayout from "../components/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import StatusBadge from "../components/StatusBadge.astro";
+import { tiers, sitePhases } from "../data/roadmap";
+import { href } from "../site.config";
+---
+
+<BaseLayout title="Roadmap" description="Monitoring tiers and site phases. Only the photo check is current work.">
+  <PageHeader
+    title="Roadmap"
+    intro="One step at a time. The photo check is current work. Everything beyond it is planned or exploring, and stays labelled that way until experts have checked it."
+  />
+  <div class="container">
+    <h2>Monitoring tiers</h2>
+    {tiers.map((tier) => (
+      <article class="card" style="margin-bottom:1rem;">
+        <h3 style="margin-top:0;">{tier.tier} — {tier.name}</h3>
+        <p>
+          {tier.status === "Planned" && <StatusBadge kind="planned" />}
+          {tier.status === "Exploring" && <StatusBadge kind="pending" label="Exploring" />}
+          {tier.status.startsWith("Now") && <StatusBadge kind="pending" label={tier.status} />}
+        </p>
+        <p>{tier.description}</p>
+      </article>
+    ))}
+
+    <h2>Site phases</h2>
+    {sitePhases.map((phase) => (
+      <article class="card" style="margin-bottom:1rem;">
+        <h3 style="margin-top:0;">{phase.phase}</h3>
+        <p><StatusBadge kind="pending" label={phase.status} /></p>
+        <p>{phase.description}</p>
+      </article>
+    ))}
+
+    <h2>From the report's future work</h2>
+    <p>
+      The report's Chapter 13 sketches a mobile app, offline use, sensor integration, pilot
+      programmes, and commercial models. All of that is future work in the report's own framing. No
+      dates, prices, or availability claims are made here. The report's phased 18-month sketch has
+      no calendar dates and is not reproduced as a schedule.
+    </p>
+    <p>
+      <a href={href("/detector")}>Detector status</a> ·
+      <a href={href("/project")}>Project summary</a>
+    </p>
+  </div>
+</BaseLayout>

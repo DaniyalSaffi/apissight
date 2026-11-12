@@ -1,0 +1,34 @@
+---
+import BaseLayout from "../components/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import PlaceholderBox from "../components/PlaceholderBox.astro";
+import { SITE } from "../site.config";
+---
+
+<BaseLayout title="Privacy" description="Draft privacy notice for this site. Review by the team and, where needed, the university is still pending.">
+  <PageHeader
+    title="Privacy"
+    intro="Draft notice for this site. It needs review by the team and, where needed, the university. That review is still pending."
+  />
+  <div class="container">
+    <div class="notice">
+      <p><strong>Draft.</strong> This notice describes this site only. It is not legal advice. Review by the team and, where needed, the university is still pending.</p>
+    </div>
+    <h2>What this site collects</h2>
+    <ul>
+      <li><strong>Nothing you type.</strong> The contact form is not connected and sends nothing. No accounts or comments exist on this site.</li>
+      <li><strong>Detector uploads stay on your device.</strong> Photos added to the detector are processed in your browser and are never uploaded. Detector history and settings are stored in your browser only (IndexedDB and local storage). Exports are generated in your browser. No photo leaves the device.</li>
+      <li><strong>Theme choice.</strong> If you switch the light/dark theme, the choice is stored in your browser (local storage) on your device only. It is never sent anywhere.</li>
+      <li><strong>No analytics, no tracking cookies</strong> on this site. If analytics are added later, they must be cookieless and disclosed here first.</li>
+      <li><strong>Fonts.</strong> Page fonts load from Google Fonts, which means your browser requests font files from Google's servers. The plan is to self-host fonts before the full launch so no third-party font request is needed.</li>
+      <li><strong>Hosting logs.</strong> The hosting provider (GitHub Pages, once deployed) may log standard request data such as IP address, date, and pages requested, under its own policies. This site does not control those logs.</li>
+    </ul>
+    <h2>Detector (interface built, models not loaded)</h2>
+    <p>{SITE.privacyNote} Photos never leave the device, no photo is stored on a server, and location data in photo files is not included in exports. Because the models are not loaded yet, no analysis runs yet. The on-device behaviour still needs testing on a deployed build.</p>
+    <h2>External links and contact channels</h2>
+    <p>Links to external sites (partner, university, organiser pages) open other websites with their own privacy practices. This notice does not cover them. Contact by email, LinkedIn, or WhatsApp goes through those providers under their own terms; the WhatsApp chat link opens WhatsApp/Meta services.</p>
+    <h2>Contact for privacy questions</h2>
+    <PlaceholderBox text="privacy contact name and email, and the data controller identity, as confirmed by the team and university" />
+    <PlaceholderBox text="last-updated date and version of this notice" />
+  </div>
+</BaseLayout>

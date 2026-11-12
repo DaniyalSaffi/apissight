@@ -1,0 +1,24 @@
+---
+import BaseLayout from "../components/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import PlaceholderBox from "../components/PlaceholderBox.astro";
+import { href } from "../site.config";
+---
+
+<BaseLayout title="News" description="News and updates. No posts yet.">
+  <PageHeader
+    title="News"
+    intro="Updates about the project, the detector, and the research paper. Nothing is posted here yet."
+  />
+  <div class="container">
+    <div class="notice">
+      <p><strong>No news posts yet.</strong> This page will carry dated updates only when something real happens: a parity result, a paper decision, a confirmed event, or a launch step. Nothing is invented to fill it.</p>
+    </div>
+    <PlaceholderBox text="first news post: what happened, when, with a link to the source (only after it happens)" />
+    <p>
+      Meanwhile, see <a href={href("/research")}>Research</a>,
+      <a href={href("/roadmap")}>Roadmap</a>, and
+      <a href={href("/journey")}>Journey</a>.
+    </p>
+  </div>
+</BaseLayout>

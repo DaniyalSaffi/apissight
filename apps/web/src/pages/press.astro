@@ -1,0 +1,53 @@
+---
+import BaseLayout from "../components/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import PlaceholderBox from "../components/PlaceholderBox.astro";
+import { SITE, href } from "../site.config";
+---
+
+<BaseLayout title="Press" description="Press fact sheet and boilerplate. No logos, photos, or quotes until approved.">
+  <PageHeader
+    title="Press"
+    intro="Fact sheet and boilerplate for journalists and partners. No logos, photos, or quotes are offered until each is approved."
+  />
+  <div class="container">
+    <h2>Boilerplate (draft)</h2>
+    <p>
+      {SITE.name} is a final-year project from the Department of Computer
+      Science, Namal University, built with SAWiE Ecosystem as industrial partner. The project
+      explores whether two small image models can help beekeepers spot three honeybee diseases
+      early from photos, as decision support alongside expert inspection. The research paper is
+      under review.
+    </p>
+    <p class="small muted">Boilerplate wording needs team and partner approval before use in any publication.</p>
+
+    <h2>Fact sheet</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <tr><th>Project</th><td>AI-Driven Honeybee and Beehive Health Monitoring System for Disease Detection and Population Analysis</td></tr>
+          <tr><th>Team</th><td>Final-year project team, Namal University (names on the <a href={href("/team")}>Team</a> page, with consent status per person)</td></tr>
+          <tr><th>Partner</th><td>SAWiE Ecosystem (description approved; confirmed by the project lead, 12 Nov 2026)</td></tr>
+          <tr><th>What it does</th><td>Two-stage photo check: honeybee/beehive gate, then Healthy / DWV / Varroa / Chalkbrood labels</td></tr>
+          <tr><th>Status</th><td>Prototype. Live detector pending conversion and parity testing. Paper under review.</td></tr>
+          <tr><th>Accuracy</th><td>Reported project results on the <a href={href("/research")}>Research</a> page, with sources. Demo-model measurement pending parity testing.</td></tr>
+          <tr><th>Awards</th><td>Team claims; certificates to be added; see the <a href={href("/awards")}>Awards</a> page.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Assets</h2>
+    <PlaceholderBox text="logo files, team photos, field photos, and screenshots, each with rights and permissions confirmed" />
+    <p>No assets are offered for download in this early release. Do not reuse images, logos, or text from this site without written permission; ownership and licensing are unconfirmed.</p>
+
+    <h2>Quotes</h2>
+    <p>No quotes are offered. No quote from any person or partner exists in the project report, and none has been approved for publication.</p>
+    <PlaceholderBox text="approved quotes, if any, with speaker name, role, date, and written permission" />
+
+    <h2>Press contact</h2>
+    <p>
+      <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a> — project lead. See the
+      <a href={href("/contact")}>Contact page</a> for LinkedIn and WhatsApp.
+    </p>
+  </div>
+</BaseLayout>

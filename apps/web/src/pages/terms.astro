@@ -1,0 +1,52 @@
+---
+import BaseLayout from "../components/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import PlaceholderBox from "../components/PlaceholderBox.astro";
+import Disclaimer from "../components/Disclaimer.astro";
+---
+
+<BaseLayout title="Terms" description="Draft terms for this site. Review by the team and, where needed, the university is still pending.">
+  <PageHeader
+    title="Terms"
+    intro="Draft terms for this site. They need review by the team and, where needed, the university. That review is still pending."
+  />
+  <div class="container">
+    <div class="notice">
+      <p><strong>Draft.</strong> These terms describe an early release. They are not legal advice. Review by the team and, where needed, the university is still pending.</p>
+    </div>
+    <h2>Content under review</h2>
+    <p>
+      This site is an early release. Some sections are still being completed. Facts marked pending,
+      placeholders, and draft descriptions may be wrong or incomplete. Do not rely on pending
+      claims, and do not republish them as confirmed.
+    </p>
+    <Disclaimer />
+    <h2>Intended use</h2>
+    <p>
+      The planned detector is a decision-support tool for beekeepers and inspectors. It is not a
+      veterinary service, not a laboratory test, and not a substitute for inspection by a qualified
+      apiary inspector or lab. Follow local rules on reporting bee diseases.
+    </p>
+    <h2>Accuracy</h2>
+    <p>
+      Reported project results from the final report and poster are published on the Research page,
+      each with its exact source. They describe the project as reported and do not describe the
+      demo models, which are unmeasured. Results from photos depend heavily on photo quality and
+      on what is visible in the frame.
+    </p>
+    <h2>Reuse</h2>
+    <p>
+      Do not reuse text, images, models, or code from this site without written permission.
+      Ownership and licensing between the university, the industry partner, and the team are not
+      yet confirmed, and no licence is granted by this site.
+    </p>
+    <h2>Availability</h2>
+    <p>
+      This site may change or go offline without notice. No uptime, support, or service promise
+      is made.
+    </p>
+    <h2>Governing details</h2>
+    <PlaceholderBox text="operator identity, governing law, and contact for legal notices, as confirmed by the team and university" />
+    <PlaceholderBox text="last-updated date and version of these terms" />
+  </div>
+</BaseLayout>
