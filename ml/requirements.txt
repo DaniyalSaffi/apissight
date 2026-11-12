@@ -1,0 +1,10 @@
+# ML tooling — conversion and parity only. No training, no retraining, no model changes.
+#
+# Install in Google Colab (see COLAB_RUNBOOK.md). Versions are lower bounds;
+# record the exact installed versions in docs/PARITY_REPORT.md when you run.
+tensorflow>=2.16
+tf-keras>=2.16
+tensorflowjs>=4.0
+Pillow>=10.0
+numpy>=1.26
+h5py>=3.0
