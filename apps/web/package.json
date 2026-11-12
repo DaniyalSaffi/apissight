@@ -1,0 +1,1 @@
+{"dependencies":{"@apissight/core":"^0.1.0","@tensorflow/tfjs":"^4.22.0","astro":"^5.13.0","chart.js":"^4.6.1","exceljs":"^4.4.0","idb":"^8.0.4","jspdf":"^4.2.1"},"devDependencies":{"typescript":"^5.7.0"},"name":"apissight-web","private":true,"scripts":{"astro":"astro","build":"astro build","dev":"astro dev","preview":"astro preview"},"type":"module","version":"0.1.0"}
