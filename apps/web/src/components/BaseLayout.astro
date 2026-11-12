@@ -69,13 +69,13 @@ function isCurrent(path: string): boolean {
   <body data-sw-url={href("/sw.js")}>
     <a class="skip-link" href="#main">Skip to main content</a>
     {SITE.earlyRelease && (
-      <div class="release-banner" role="note">
+      <aside class="release-banner" aria-label="Release notice">
         Early release: some sections are still being completed.
-      </div>
+      </aside>
     )}
     <header class="site-header">
       <div class="container header-row">
-        <a class="brand" href={href("/")} aria-label={`${SITE.name} — home`}>
+        <a class="brand" href={href("/")}>
           <svg class="hex-mark" width="40" height="44" viewBox="0 0 40 44" aria-hidden="true">
             <polygon points="20,1 38,11 38,31 20,41 2,31 2,11" fill="#F5A524" stroke="#B97A0F" stroke-width="2" />
             <text x="20" y="29" text-anchor="middle" font-size="20" font-weight="700" fill="#1D1408" font-family="Georgia, serif">A</text>
