@@ -1,0 +1,5 @@
+# Early release: search engines are kept out by noindex meta tags on every page
+# while allowIndexing is false (see apps/web/src/site.config.ts).
+# robots.txt alone cannot de-index a site; the meta tags do that work.
+User-agent: *
+Allow: /
