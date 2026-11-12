@@ -13,7 +13,7 @@ const basePath = import.meta.env.BASE_URL ?? "/";
 >
   <PageHeader title="Search" intro="Search every page of this site. Results stay on this site." />
   <div class="container">
-    <form class="search-form" id="search-form" role="search">
+    <form class="search-form" id="search-form" role="search" aria-label="Site search">
       <label for="search-input">
         Search the site
         <input id="search-input" name="q" type="search" autocomplete="off" />
