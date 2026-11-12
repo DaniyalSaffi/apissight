@@ -6,6 +6,7 @@
 import type {
   InferenceProvider,
   InferenceResult,
+  PreprocessVariant,
   WorkerResponse,
 } from "@apissight/core";
 
@@ -16,6 +17,8 @@ export interface DetectorUrls {
   stage1ModelUrl: string;
   stage2ManifestUrl: string;
   stage2ModelUrl: string;
+  /** Preprocessing variant for the worker. Defaults to "pillow". */
+  preprocessVariant?: PreprocessVariant;
 }
 
 type StatusListener = (
@@ -36,6 +39,10 @@ export class DetectorClient implements InferenceProvider {
   private pending = new Map<
     string,
     { resolve: (result: InferenceResult) => void; reject: (error: Error) => void; timer: number }
+  >();
+  private pendingPixels = new Map<
+    string,
+    { resolve: (pixels: Uint8Array) => void; reject: (error: Error) => void; timer: number }
   >();
   private listeners = new Set<StatusListener>();
   private loadWaiters: Array<() => void> = [];
@@ -59,6 +66,7 @@ export class DetectorClient implements InferenceProvider {
       stage1ModelUrl: this.urls.stage1ModelUrl,
       stage2ManifestUrl: this.urls.stage2ManifestUrl,
       stage2ModelUrl: this.urls.stage2ModelUrl,
+      preprocessVariant: this.urls.preprocessVariant ?? "pillow",
     });
     return new Promise((resolve) => {
       this.loadWaiters.push(resolve);
@@ -77,6 +85,23 @@ export class DetectorClient implements InferenceProvider {
       }, CLASSIFY_TIMEOUT_MS);
       this.pending.set(id, { resolve, reject, timer });
       this.worker.postMessage({ type: "classify", id, image });
+    });
+  }
+
+  /**
+   * Parity hook: run the worker's preprocessing and return the raw 224x224
+   * RGB pixels, without running any model. Used by the parity run through
+   * the ?pixels=1 page hook. No models needed.
+   */
+  getPixels(image: Blob): Promise<Uint8Array> {
+    const id = crypto.randomUUID();
+    return new Promise((resolve, reject) => {
+      const timer = window.setTimeout(() => {
+        this.pendingPixels.delete(id);
+        reject(new Error("Preprocessing timed out after 120 seconds."));
+      }, CLASSIFY_TIMEOUT_MS);
+      this.pendingPixels.set(id, { resolve, reject, timer });
+      this.worker.postMessage({ type: "pixels", id, image });
     });
   }
 
@@ -107,6 +132,13 @@ export class DetectorClient implements InferenceProvider {
         this.pending.delete(message.id);
         entry.resolve(message.result);
       }
+    } else if (message.type === "pixels-result") {
+      const entry = this.pendingPixels.get(message.id);
+      if (entry) {
+        window.clearTimeout(entry.timer);
+        this.pendingPixels.delete(message.id);
+        entry.resolve(message.pixels);
+      }
     } else if (message.type === "error") {
       if (message.id) {
         const entry = this.pending.get(message.id);
@@ -114,6 +146,12 @@ export class DetectorClient implements InferenceProvider {
           window.clearTimeout(entry.timer);
           this.pending.delete(message.id);
           entry.reject(new Error(message.message));
+        }
+        const pixelsEntry = this.pendingPixels.get(message.id);
+        if (pixelsEntry) {
+          window.clearTimeout(pixelsEntry.timer);
+          this.pendingPixels.delete(message.id);
+          pixelsEntry.reject(new Error(message.message));
         }
       } else {
         this.setStatus("not-loaded", message.message);

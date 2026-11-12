@@ -3,15 +3,18 @@
  * thread and applies the two-stage gate exactly as in the master plan (7.1):
  * Stage 2 runs only when Stage 1 returns a label starting with "0".
  *
- * Preprocessing (plan 7.1): centre-crop to a square, resize to 224x224,
- * normalise to [-1, 1] as x = (pixel / 127.5) - 1. The Python reference uses
- * Lanczos resampling. This worker draws the centre-cropped square to a
- * 224x224 OffscreenCanvas with imageSmoothingQuality "high" (the browser's
- * best downscale); where OffscreenCanvas is unavailable it falls back to
- * bilinear resizing. The resize method is recorded in the parity docs
- * (ml/README.md, docs/PARITY_REPORT.md). The parity test (ml/) measures the
- * effect of any preprocessing difference; the demo must not ship until
- * parity passes.
+ * Preprocessing (plan 7.1): the default variant ("pillow") replicates Pillow
+ * 10.4.0 exactly — ImageOps.fit's float crop box, then the two-pass
+ * fixed-point Lanczos resample from libImaging/Resample.c — followed by
+ * normalisation to [-1, 1] as x = (pixel / 127.5) - 1. See preprocess.ts.
+ * The other variants ("lanczos3", "canvas", "passthrough") exist only for
+ * the parity experiments; the shipped default is "pillow".
+ *
+ * Decoding uses createImageBitmap with colour-space conversion and alpha
+ * premultiplication disabled, and keeps the browser's default EXIF
+ * orientation handling ("from-image"): what the user sees is what the model
+ * gets. The parity images carry no EXIF orientation, so parity is
+ * unaffected. This choice is recorded in the parity report.
  *
  * No predictions are ever invented: if the model files are missing or fail to
  * load, the worker reports "not-loaded" and classify() rejects.
@@ -19,10 +22,12 @@
 import type {
   InferenceResult,
   ModelManifest,
+  PreprocessVariant,
   WorkerRequest,
   WorkerResponse,
 } from "@apissight/core";
 import { assembleInferenceResult, isValidStage1Label, topLabelIndex } from "@apissight/core";
+import { preprocessPixels } from "./preprocess";
 
 type TfModule = typeof import("@tensorflow/tfjs");
 type LayersModel = import("@tensorflow/tfjs").LayersModel;
@@ -33,6 +38,7 @@ let stage2Model: LayersModel | null = null;
 let stage1Labels: string[] = [];
 let stage2Labels: string[] = [];
 let modelVersion = "";
+let activeVariant: PreprocessVariant = "pillow";
 
 const ctx = self as unknown as {
   postMessage(message: WorkerResponse): void;
@@ -54,6 +60,7 @@ async function fetchManifest(url: string): Promise<ModelManifest | null> {
 }
 
 async function init(message: Extract<WorkerRequest, { type: "init" }>): Promise<void> {
+  activeVariant = message.preprocessVariant ?? "pillow";
   post({ type: "status", status: "loading" });
   const [manifest1, manifest2] = await Promise.all([
     fetchManifest(message.stage1ManifestUrl),
@@ -88,43 +95,27 @@ async function init(message: Extract<WorkerRequest, { type: "init" }>): Promise<
   }
 }
 
+/** Decode options shared by classify() and pixels(): no colour conversion, no alpha premultiplication, default EXIF orientation. */
+function decodeOptions(): ImageBitmapOptions {
+  return {
+    colorSpaceConversion: "none",
+    imageOrientation: "from-image",
+    premultiplyAlpha: "none",
+  };
+}
+
 /**
- * Prepare one image for the models: centre-crop to a square, high-quality
- * downscale to 224x224, normalise to [-1, 1] as x = (pixel / 127.5) - 1.
- * The canvas path is preferred; the tensor path is the fallback where
- * OffscreenCanvas is unavailable.
+ * Prepare one image for the models with the active preprocessing variant,
+ * then normalise to [-1, 1] as x = (pixel / 127.5) - 1.
  */
 function prepareInput(
   tfModule: TfModule,
   bitmap: ImageBitmap,
 ): ReturnType<TfModule["tensor"]> {
-  if (typeof OffscreenCanvas !== "undefined") {
-    const side = Math.min(bitmap.width, bitmap.height);
-    const sx = Math.floor((bitmap.width - side) / 2);
-    const sy = Math.floor((bitmap.height - side) / 2);
-    const canvas = new OffscreenCanvas(224, 224);
-    const context = canvas.getContext("2d");
-    if (context) {
-      context.imageSmoothingEnabled = true;
-      context.imageSmoothingQuality = "high";
-      context.drawImage(bitmap, sx, sy, side, side, 0, 0, 224, 224);
-      const imageData = context.getImageData(0, 0, 224, 224);
-      return tfModule.tidy(() =>
-        tfModule.browser.fromPixels(imageData).toFloat().div(127.5).sub(1).expandDims(0),
-      );
-    }
-  }
-  return tfModule.tidy(() => {
-    const pixels = tfModule.browser.fromPixels(bitmap);
-    const height = pixels.shape[0];
-    const width = pixels.shape[1];
-    const side = Math.min(height, width);
-    const top = Math.floor((height - side) / 2);
-    const left = Math.floor((width - side) / 2);
-    const cropped = pixels.slice([top, left, 0], [side, side, 3]);
-    const resized = tfModule.image.resizeBilinear(cropped, [224, 224]);
-    return resized.toFloat().div(127.5).sub(1).expandDims(0);
-  });
+  const pixels = preprocessPixels(bitmap, activeVariant, 224);
+  return tfModule.tidy(() =>
+    tfModule.tensor(pixels, [224, 224, 3]).toFloat().div(127.5).sub(1).expandDims(0),
+  );
 }
 
 async function classify(id: string, image: Blob): Promise<void> {
@@ -136,7 +127,7 @@ async function classify(id: string, image: Blob): Promise<void> {
   let bitmap: ImageBitmap | null = null;
   let input: ReturnType<TfModule["tensor"]> | null = null;
   try {
-    bitmap = await createImageBitmap(image);
+    bitmap = await createImageBitmap(image, decodeOptions());
     input = prepareInput(currentTf, bitmap);
     const stage1Output = stage1Model.predict(input) as ReturnType<TfModule["tensor"]>;
     const stage1Values = (await stage1Output.data()) as Float32Array;
@@ -173,6 +164,28 @@ async function classify(id: string, image: Blob): Promise<void> {
   }
 }
 
+/**
+ * Parity hook: run the active variant's preprocessing and return the raw
+ * 224x224 RGB pixels, without running any model. Used by the parity run
+ * (pixel-level test) through the ?pixels=1 page hook. No models needed.
+ */
+async function pixels(id: string, image: Blob): Promise<void> {
+  let bitmap: ImageBitmap | null = null;
+  try {
+    bitmap = await createImageBitmap(image, decodeOptions());
+    const rgb = preprocessPixels(bitmap, activeVariant, 224);
+    post({ type: "pixels-result", id, pixels: rgb });
+  } catch (error) {
+    post({
+      type: "error",
+      id,
+      message: `Preprocessing failed: ${error instanceof Error ? error.message : String(error)}`,
+    });
+  } finally {
+    if (bitmap) bitmap.close();
+  }
+}
+
 /** Serialize handling so classifications never run concurrently. */
 let chain: Promise<void> = Promise.resolve();
 
@@ -183,6 +196,8 @@ ctx.onmessage = (event: MessageEvent<WorkerRequest>) => {
       await init(message);
     } else if (message.type === "classify") {
       await classify(message.id, message.image);
+    } else if (message.type === "pixels") {
+      await pixels(message.id, message.image);
     }
   });
 };

@@ -108,6 +108,12 @@ function queueItemToHistory(item: QueueItem): HistoryItem | null {
 
 export function initDetector(urls: DetectorUrls): void {
   const client = new DetectorClient(urls);
+  // Parity hook: ?pixels=1 exposes the worker preprocessing so the parity
+  // run can compare browser pixels against the Python reference arrays.
+  if (new URLSearchParams(location.search).get("pixels") === "1") {
+    (window as unknown as { __apissightPixels: (image: Blob) => Promise<Uint8Array> }).__apissightPixels =
+      (image: Blob) => client.getPixels(image);
+  }
   const settings = loadSettings();
   const queue = new QueueController();
   let viewingRun: HistoryRun | null = null;
