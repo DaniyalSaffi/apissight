@@ -40,16 +40,23 @@ supplied 2026-11-12):
 The FYP report's training-preprocessing description (0–1 range, aspect-preserving
 padding) does NOT apply to the demo.
 
-## Resize methods (recorded 2026-11-12)
+## Resize methods (recorded 2026-11-12, updated for the Pillow-exact worker)
 
-All three backends centre-crop to a square, resize to 224×224, and scale with
+All backends centre-crop to a square, resize to 224×224, and scale with
 `x = (pixel / 127.5) - 1`. The resampling method differs by backend:
 
 | Backend | Resize method |
 |---|---|
 | Python / Keras (`parity_test.py`) | PIL `ImageOps.fit`, LANCZOS (exact plan §7.1) |
-| Browser worker (`apps/web/src/lib/detector/worker.ts`) | `OffscreenCanvas` draw at 224×224 with `imageSmoothingQuality: "high"`; bilinear fallback where `OffscreenCanvas` is unavailable |
+| Browser worker, default (`apps/web/src/lib/detector/preprocess.ts`, variant `pillow`) | Pillow-exact port of Pillow 10.4.0: `ImageOps.fit` float crop box, then the two-pass fixed-point Lanczos resample from `libImaging/Resample.c` (support 3 × max(scale, 1), weights normalised, round + clip to uint8 after each pass). Validated bit-exact against Pillow 10.4.0 on all 32 parity images locally |
+| Browser worker, parity variants (`?preprocess=`) | `lanczos3`: plain Lanczos3 on an integer centre crop. `canvas`: the previous `OffscreenCanvas` draw with `imageSmoothingQuality: "high"`. `passthrough`: no resize (tensor-level test). Experiments only; the shipped default is `pillow` |
 | Node / TF.js (`parity_test_tfjs.mjs`) | Progressive bilinear halving (approximates the browser smoothing; TF.js has no Lanczos or canvas path in Node) |
+
+Decoding: the worker uses `createImageBitmap` with colour-space conversion
+and alpha premultiplication disabled, and keeps the browser's default EXIF
+orientation handling (`"from-image"`): what the user sees is what the model
+gets. The parity images carry no EXIF orientation, so parity is unaffected.
+This choice is recorded in the parity report.
 
 The parity test measures the total effect of these differences. Acceptance is
 unchanged (top-1 agreement ≥ 99%, max per-class probability difference ≤ 0.02).
