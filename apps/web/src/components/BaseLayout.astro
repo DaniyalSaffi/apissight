@@ -90,6 +90,11 @@ function isCurrent(path: string): boolean {
           </span>
         </a>
         <div class="header-actions">
+          <form class="header-search" role="search" action={href("/search")} method="get">
+            <label class="visually-hidden" for="header-search-input">{t.chrome.searchLabel}</label>
+            <input id="header-search-input" name="q" type="search" placeholder={t.chrome.search} />
+            <button type="submit">{t.chrome.search}</button>
+          </form>
           <nav class="lang-links" aria-label={t.chrome.langNav}>
             <a href={href("/")} aria-current={lang === "en" ? "page" : undefined}>English</a>
             <a href={href("/de/")} aria-current={lang === "de" ? "page" : undefined}>Deutsch</a>
