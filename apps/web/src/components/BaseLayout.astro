@@ -1,5 +1,8 @@
 ---
 import { SITE, href, type LangCode } from "../site.config";
+import { en } from "../i18n/en";
+import { de } from "../i18n/de";
+import { ur } from "../i18n/ur";
 import "../styles/global.css";
 
 export interface Props {
@@ -12,23 +15,24 @@ export interface Props {
 const { title, description = SITE.description, lang = "en", dir = "ltr" } = Astro.props;
 const pageTitle = `${title} — ${SITE.name}`;
 const currentPath = Astro.url.pathname;
+const t = lang === "de" ? de : lang === "ur" ? ur : en;
 
 const navItems: Array<{ path: string; label: string }> = [
-  { path: "/project", label: "Project" },
-  { path: "/detector", label: "Detector" },
-  { path: "/journey", label: "Journey" },
-  { path: "/partnership", label: "Partnership" },
-  { path: "/field-work", label: "Field work" },
-  { path: "/research", label: "Research" },
-  { path: "/awards", label: "Awards" },
-  { path: "/team", label: "Team" },
-  { path: "/models-data", label: "Models & data" },
-  { path: "/roadmap", label: "Roadmap" },
-  { path: "/learn", label: "Learn" },
-  { path: "/news", label: "News" },
-  { path: "/press", label: "Press" },
-  { path: "/faq", label: "FAQ" },
-  { path: "/contact", label: "Contact" },
+  { path: "/project", label: t.nav.project },
+  { path: "/detector", label: t.nav.detector },
+  { path: "/journey", label: t.nav.journey },
+  { path: "/partnership", label: t.nav.partnership },
+  { path: "/field-work", label: t.nav.fieldWork },
+  { path: "/research", label: t.nav.research },
+  { path: "/awards", label: t.nav.awards },
+  { path: "/team", label: t.nav.team },
+  { path: "/models-data", label: t.nav.modelsData },
+  { path: "/roadmap", label: t.nav.roadmap },
+  { path: "/learn", label: t.nav.learn },
+  { path: "/news", label: t.nav.news },
+  { path: "/press", label: t.nav.press },
+  { path: "/faq", label: t.nav.faq },
+  { path: "/contact", label: t.nav.contact },
 ];
 
 function isCurrent(path: string): boolean {
@@ -67,10 +71,10 @@ function isCurrent(path: string): boolean {
     </script>
   </head>
   <body data-sw-url={href("/sw.js")}>
-    <a class="skip-link" href="#main">Skip to main content</a>
+    <a class="skip-link" href="#main">{t.chrome.skipLink}</a>
     {SITE.earlyRelease && (
       <aside class="release-banner" aria-label="Release notice">
-        Early release: some sections are still being completed.
+        {t.releaseBanner}
       </aside>
     )}
     <header class="site-header">
@@ -86,18 +90,18 @@ function isCurrent(path: string): boolean {
           </span>
         </a>
         <div class="header-actions">
-          <nav class="lang-links" aria-label="Language">
+          <nav class="lang-links" aria-label={t.chrome.langNav}>
             <a href={href("/")} aria-current={lang === "en" ? "page" : undefined}>English</a>
             <a href={href("/de/")} aria-current={lang === "de" ? "page" : undefined}>Deutsch</a>
             <a href={href("/ur/")} aria-current={lang === "ur" ? "page" : undefined}>اردو</a>
           </nav>
-          <button class="theme-btn" id="theme-toggle" type="button" aria-label="Switch light and dark theme">Theme</button>
+          <button class="theme-btn" id="theme-toggle" type="button" aria-label={t.chrome.themeLabel}>{t.chrome.theme}</button>
         </div>
       </div>
-      <nav class="main-nav" aria-label="Main">
+      <nav class="main-nav" aria-label={t.chrome.mainNav}>
         <div class="container">
           <ul>
-            <li><a href={href("/")} aria-current={isCurrent("/") ? "page" : undefined}>Home</a></li>
+            <li><a href={href("/")} aria-current={isCurrent("/") ? "page" : undefined}>{t.nav.home}</a></li>
             {navItems.map((item) => (
               <li>
                 <a href={href(item.path)} aria-current={isCurrent(item.path) ? "page" : undefined}>{item.label}</a>
@@ -112,29 +116,27 @@ function isCurrent(path: string): boolean {
     </main>
     <footer class="site-footer">
       <div class="container">
-        <nav aria-label="Footer">
+        <nav aria-label={t.chrome.footerNav}>
           <ul>
-            <li><a href={href("/privacy")}>Privacy</a></li>
-            <li><a href={href("/terms")}>Terms</a></li>
-            <li><a href={href("/imprint")}>Imprint</a></li>
-            <li><a href={href("/faq")}>FAQ</a></li>
-            <li><a href={href("/contact")}>Contact</a></li>
-            <li><a href={href("/credits")}>Image credits</a></li>
+            <li><a href={href("/privacy")}>{t.footer.privacy}</a></li>
+            <li><a href={href("/terms")}>{t.footer.terms}</a></li>
+            <li><a href={href("/imprint")}>{t.footer.imprint}</a></li>
+            <li><a href={href("/faq")}>{t.footer.faq}</a></li>
+            <li><a href={href("/contact")}>{t.footer.contact}</a></li>
+            <li><a href={href("/credits")}>{t.footer.credits}</a></li>
           </ul>
         </nav>
         <p class="footer-note">
-          Contact:
-          <a href={`mailto:${SITE.contactEmail}`}>Email</a> ·
+          {t.footer.contactLabel}
+          <a href={`mailto:${SITE.contactEmail}`}>{t.footer.email}</a> ·
           {SITE.socials.linkedin && <><a href={SITE.socials.linkedin} rel="noopener">LinkedIn</a> · </>}
           <a href={SITE.whatsapp.chatUrl} rel="noopener">WhatsApp</a>
         </p>
         <p class="footer-note">
-          {SITE.name} is a final-year project from the Department of Computer
-          Science, Namal University. {SITE.disclaimer}
+          {SITE.name} {t.footer.about} {SITE.disclaimer}
         </p>
         <p class="footer-note small">
-          Early release: some sections are still being completed. Awards and field-work claims
-          on this site are statements by the project team, not verified facts.
+          {t.footer.earlyReleaseNote}
         </p>
       </div>
     </footer>
