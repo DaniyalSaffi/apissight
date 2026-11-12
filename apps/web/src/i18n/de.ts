@@ -44,6 +44,8 @@ export const de = {
     mainNav: "Hauptnavigation",
     footerNav: "Fußzeile",
     langNav: "Sprache",
+    search: "Suchen",
+    searchLabel: "Website durchsuchen",
   },
   releaseBanner: "Frühe Version: Einige Abschnitte werden noch fertiggestellt.",
   translationNote:

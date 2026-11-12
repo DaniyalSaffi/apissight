@@ -39,6 +39,8 @@ export const en = {
     mainNav: "Main",
     footerNav: "Footer",
     langNav: "Language",
+    search: "Search",
+    searchLabel: "Search the site",
   },
   releaseBanner: "Early release: some sections are still being completed.",
   translationNote: "",
